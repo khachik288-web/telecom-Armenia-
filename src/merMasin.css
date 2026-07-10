@@ -1,0 +1,21 @@
+.mermasin {
+    width: 70%;
+    margin-left: 250px;
+}
+h1 {
+    color: black;
+}
+.mermasin > p {
+    margin-top: 20px;
+}
+a {
+    text-decoration: none;
+    color: black;
+}
+.kisvel {
+    margin-left: 250px;
+    margin-top: 80px ;
+    display: flex;
+    justify-content: space-between;
+    width: 130px;
+}

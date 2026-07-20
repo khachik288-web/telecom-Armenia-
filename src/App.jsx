@@ -10,6 +10,10 @@ import Eshop from './eshop.jsx';
 import MerMasin from './merMasin.jsx';
 import KapiTangaran from './kapiTangaran.jsx';
 import Norutyuner from './norutyuner.jsx';
+import Yndanurdrutyuner from './yndanurdrutyuner.jsx';
+import Anvtangutyun from './anvtangutyun.jsx';
+import TeamTVPage from './teamtv.jsx';
+import Myteam from './myteam.jsx';
 
 import { 
   FaRegUserCircle, FaRegCreditCard, FaShoppingCart, FaBars,
@@ -414,6 +418,7 @@ function HomePage() {
           <a href="#all-news" className="news-link-all">Տեսնել ավելին</a>
         </div>
       </Container>
+      <img src="../img/team4.png" className="img-fluid w-100 d-block m-0" alt="team-promo" />
     </>
   );
 }
@@ -506,11 +511,11 @@ function App() {
         <Route path="/merMasin" element={<MerMasin />} />
         <Route path="/kapiTangaran" element={<KapiTangaran />} />
         <Route path="/norutyuner" element={<Norutyuner />} />
+        <Route path="/yndanurdrutyuner" element={<Yndanurdrutyuner />} />
+        <Route path="/anvtangutyun" element={<Anvtangutyun />} />\
+        <Route path="/teamtv" element={<TeamTVPage />} />
+        <Route path="/myteam" element={<Myteam/>} />
       </Routes>
-
-      <Container fluid className="px-0 my-4">
-        <img src="../img/team4.png" className="img-fluid w-100 d-block m-0" alt="team-promo" />
-      </Container>
 
       <footer className="footer-main">
         <Container style={{ paddingTop: '60px', paddingBottom: '40px' }}>
@@ -538,16 +543,16 @@ function App() {
             <Col xs={12} md={6} lg={3}>
               <h5 className="footer-col-title"><FaInfoCircle size={18} style={{ marginRight: '8px', color: '#b0cddb' }} />Տեղեկատվություն</h5>
               <ul className="footer-list">
-                <li><a href="#link" className="footer-link">Ընդհանուր դրույթներ և պայմաններ</a></li>
-                <li><a href="#link" className="footer-link">Անվտանգություն</a></li>
+                <li><a href="/yndanurdrutyuner" className="footer-link">Ընդհանուր դրույթներ և պայմաններ</a></li>
+                <li><a href="/anvtangutyun" className="footer-link">Անվտանգություն</a></li>
               </ul>
             </Col>
 
             <Col xs={12} md={6} lg={3}>
               <h5 className="footer-col-title"><FaThLarge size={16} style={{ marginRight: '8px', color: '#b0cddb' }} />Team հավելվածներ</h5>
               <ul className="footer-list">
-                <li><a href="#link" className="footer-link">TeamTV</a></li>
-                <li><a href="#link" className="footer-link">My Team</a></li>
+                <li><a href="/teamtv" className="footer-link">TeamTV</a></li>
+                <li><a href="/myteam" className="footer-link">My Team</a></li>
               </ul>
             </Col>
           </Row>

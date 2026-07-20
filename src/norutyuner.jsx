@@ -116,7 +116,7 @@ export default function Norutyuner() {
   const currentData = tabs.find((tab) => tab.id === activeTab)?.data || [];
 
   return (
-    <div className="norutyuner">
+    <div className="max-w-[1200px] p-[40px_20px]">
       <h1 className="norutyuner__title">Նորություններ</h1>
 
       {/* Вкладки */}

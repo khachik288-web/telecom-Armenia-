@@ -14,6 +14,7 @@ import Yndanurdrutyuner from './yndanurdrutyuner.jsx';
 import Anvtangutyun from './anvtangutyun.jsx';
 import TeamTVPage from './teamtv.jsx';
 import Myteam from './myteam.jsx';
+import Reg from './reg.jsx'
 
 import { 
   FaRegUserCircle, FaRegCreditCard, FaShoppingCart, FaBars,
@@ -96,7 +97,7 @@ function BusinessPage() {
 
           {/* PRO 3700 */}
           <Col xs={12} sm={6} lg={3}>
-            <div style={tariffCardStyle}>
+            <div className='bg-[#f8f9fa] border-[#00293c] rounded-b-lg p-6 px-5 py-[30px] h-full flex flex-col shadow-[0_4px_12px_rgba(0,0,0,0.03)]'>
               <div className="text-center mb-4">
                 <span style={tariffCardBadgeStyle}>PRO</span>
                 <h3 style={tariffCardPriceStyle}>3700</h3>
@@ -121,7 +122,7 @@ function BusinessPage() {
           </Col>
 
           <Col xs={12} sm={6} lg={3}>
-            <div style={tariffCardStyle}>
+            <div className='bg-[#f8f9fa] border-[#00293c] rounded-b-lg p-6 px-5 py-[30px] h-full flex flex-col shadow-[0_4px_12px_rgba(0,0,0,0.03)]'>
               <div className="text-center mb-4">
                 <span style={tariffCardBadgeStyle}>PRO</span>
                 <h3 style={tariffCardPriceStyle}>5200</h3>
@@ -139,7 +140,7 @@ function BusinessPage() {
           </Col>
 
           <Col xs={12} sm={6} lg={3}>
-            <div style={tariffCardStyle}>
+            <div className='bg-[#f8f9fa] border-[#00293c] rounded-b-lg p-6 px-5 py-[30px] h-full flex flex-col shadow-[0_4px_12px_rgba(0,0,0,0.03)]'>
               <div className="text-center mb-4">
                 <span style={tariffCardBadgeStyle}>PRO</span>
                 <h3 style={tariffCardPriceStyle}>8200</h3>
@@ -462,7 +463,7 @@ function Header() {
               <a href="#en" style={{ color: '#b0cddb', textDecoration: 'none' }}>Eng</a>
             </div>
             <span style={{ color: '#09435e' }}>|</span>
-            <a href="#cabinet" className="cabinet-link">
+            <a href="/reg" className="cabinet-link">
               <FaRegUserCircle size={16} /> <span>Անձնական գրասենյակ</span>
             </a>
           </div>
@@ -515,6 +516,7 @@ function App() {
         <Route path="/anvtangutyun" element={<Anvtangutyun />} />\
         <Route path="/teamtv" element={<TeamTVPage />} />
         <Route path="/myteam" element={<Myteam/>} />
+        <Route path="/reg" element={<Reg/>} />
       </Routes>
 
       <footer className="footer-main">
@@ -568,17 +570,8 @@ function App() {
   );
 }
 
-// ================= СТИЛИ ДЛЯ СТРАНИЦЫ БИЗНЕСА =================
-const tariffCardStyle = {
-  backgroundColor: '#f8f9fa',
-  borderTop: '4px solid #00293c',
-  borderRadius: '0 0 8px 8px',
-  padding: '30px 20px',
-  height: '100%',
-  display: 'flex',
-  flexDirection: 'column',
-  boxShadow: '0 4px 12px rgba(0,0,0,0.03)'
-};
+
+
 
 const tariffCardBadgeStyle = {
   fontSize: '15px',

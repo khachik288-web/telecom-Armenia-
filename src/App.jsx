@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, useLocation, Navigate } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -16,6 +16,7 @@ import TeamTVPage from './teamtv.jsx';
 import Myteam from './myteam.jsx';
 import Reg from './reg.jsx'
 
+
 import { 
   FaRegUserCircle, FaRegCreditCard, FaShoppingCart, FaBars,
   FaMobileAlt, FaPhoneAlt, FaThLarge, FaTv, FaChevronRight,
@@ -25,6 +26,15 @@ import {
 
 import './App.css';
 
+function RegGuard() {
+  const isRegistered = localStorage.getItem("isRegistered") === "true";
+
+  if (isRegistered) {
+    return <Navigate to="/" replace />;
+  }
+
+  return <Reg />;
+}
 
 function BusinessPage() {
   return (
@@ -504,7 +514,6 @@ function App() {
   return (
     <Router>
       <Header />
-
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/business" element={<BusinessPage />} />
@@ -516,7 +525,7 @@ function App() {
         <Route path="/anvtangutyun" element={<Anvtangutyun />} />\
         <Route path="/teamtv" element={<TeamTVPage />} />
         <Route path="/myteam" element={<Myteam/>} />
-        <Route path="/reg" element={<Reg/>} />
+        <Route path="/reg" element={<RegGuard/>} />
       </Routes>
 
       <footer className="footer-main">

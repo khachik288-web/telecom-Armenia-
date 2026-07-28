@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { db } from "./firebase";
 import { ref, push } from "firebase/database";
+import { useNavigate } from "react-router-dom";
 
 export default function Reg() {
   const [clientType, setClientType] = useState("personal"); 
@@ -9,6 +10,7 @@ export default function Reg() {
   const [showPassword, setShowPassword] = useState(false);
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleRegister = async () => {
   try {
@@ -17,13 +19,14 @@ export default function Reg() {
       password: password,
       createdAt: new Date().toISOString(),
     });
-    alert("Գրանցումը հաջողվեց!");
+    localStorage.setItem("isRegistered", "true");
+    navigate("/");
   } catch (err) {
     console.error(err);
     alert("Սխալ գրանցման ժամանակ");
   }
-  };
-
+ };
+ 
   return (
     <div className="flex min-h-screen">
       {/* dzax panel */}
@@ -31,25 +34,7 @@ export default function Reg() {
         <img src="https://www.telecomarmenia.am/images/team_apps/1/16510708696227.png" className="w-[80px] h-[80px] mb-[25px]" />
 
         {/* anhat kam bizn*/}
-        <div className="flex gap-8 border-b border-slate-200 mb-6">
-          {[
-            { id: "personal", label: "Անհատներին" },
-            { id: "business", label: "Բիզնես" },
-          ].map((t) => (
-            <button
-              key={t.id}
-              onClick={() => setClientType(t.id)}
-              className={`pb-3 text-sm font-medium relative ${
-                clientType === t.id ? "text-slate-800" : "text-slate-400"
-              }`}
-            >
-              {t.label}
-              {clientType === t.id && (
-                <span className="absolute left-0 -bottom-px w-full h-0.5 bg-sky-400" />
-              )}
-            </button>
-          ))}
-        </div>
+        
 
         {/* kartshki chapser */}
         <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-8">

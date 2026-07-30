@@ -85,11 +85,11 @@ const products = [
 //kartshkeq propsov
 function CategoryCard({ icon, count, text }) {
   return (
-    <a className="category-card">
-      <div className="category-card__icon-wrap">
-        <span className="category-card__icon">{icon}</span>
+    <a className="category-card flex flex-col items-center gap-1.5 sm:gap-2 md:flex-row md:gap-3 p-2 sm:p-3">
+      <div className="category-card__icon-wrap w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 flex items-center justify-center rounded-full">
+        <span className="category-card__icon text-lg sm:text-xl md:text-2xl">{icon}</span>
       </div>
-      <span className="category-card__text">{text}</span>
+      <span className="category-card__text text-[11px] sm:text-xs md:text-sm text-center md:text-left">{text}</span>
     </a>
   );
 }
@@ -97,29 +97,29 @@ function CategoryCard({ icon, count, text }) {
 // Карточка товара
 function ProductCard({ image, title, price, currency = '֏', dotColor = '#000' }) {
   return (
-    <div className="product-card">
-      <h3 className="product-card__title">{title}</h3>
+    <div className="product-card flex flex-col rounded-lg border border-gray-200 p-2 sm:p-3 md:p-4">
+      <h3 className="product-card__title text-xs sm:text-sm md:text-base line-clamp-2 sm:line-clamp-3">{title}</h3>
 
-      <label className="product-card__compare">
+      <label className="product-card__compare flex items-center gap-1.5 text-[11px] sm:text-xs mt-1.5 sm:mt-2">
         <input type="checkbox" />
         <span>Համեմատել</span>
       </label>
 
-      <div className="product-card__image-wrap">
+      <div className="product-card__image-wrap relative flex items-center justify-center py-3 sm:py-4 md:py-6">
         <span
-          className="product-card__color-dot"
+          className="product-card__color-dot absolute top-0 left-0 w-3 h-3 sm:w-4 sm:h-4 rounded-full"
           style={{ backgroundColor: dotColor }}
         ></span>
-        <img className="product-card__image" src={image} alt={title} />
+        <img className="product-card__image w-full h-24 sm:h-32 md:h-40 object-contain" src={image} alt={title} />
       </div>
 
-      <div className="product-card__price">
+      <div className="product-card__price text-sm sm:text-base md:text-lg font-semibold mt-1 sm:mt-2">
         {price.toLocaleString()} {currency}
       </div>
 
-      <button className="product-card__cart-btn">
-        <FaShoppingCart size={16} />
-        Ավելացնել զամբյուղ
+      <button className="product-card__cart-btn flex items-center justify-center gap-1.5 sm:gap-2 text-[11px] sm:text-sm mt-2 sm:mt-3 py-1.5 sm:py-2 px-2 sm:px-3 rounded-md w-full">
+        <FaShoppingCart size={16} className="shrink-0" />
+        <span className="whitespace-nowrap">Ավելացնել զամբյուղ</span>
       </button>
     </div>
   );
@@ -128,11 +128,11 @@ function ProductCard({ image, title, price, currency = '֏', dotColor = '#000' }
 //apranqi taki kartchkeqy
 function AprenqiTakiKartchkeq({img,bcgcolor,h3,text,button}) {
   return (
-    <div className="apranqiTakiCard" style={{backgroundColor: bcgcolor}}>
-      <div className='cardiMejiny'>
-        <h3>{h3}</h3>
-        <p>{text}</p>
-        <button id='button2'>{button}</button>
+    <div className="apranqiTakiCard w-full rounded-lg p-4 sm:p-5 md:p-6" style={{backgroundColor: bcgcolor}}>
+      <div className='cardiMejiny flex flex-col gap-1.5 sm:gap-2'>
+        <h3 className="text-base sm:text-lg md:text-xl font-semibold">{h3}</h3>
+        <p className="text-xs sm:text-sm md:text-base">{text}</p>
+        <button id='button2' className="mt-1.5 sm:mt-2 self-start text-xs sm:text-sm px-3 py-1.5 sm:px-4 sm:py-2 rounded-md">{button}</button>
       </div>
     </div>
   )
@@ -147,8 +147,8 @@ function ProductSlider({ products }) {
   const visibleProducts = products.slice(start, start + ITEMS_PER_PAGE);
 
   return (
-    <div className="product-slider">
-      <div className="product-slider__grid">
+    <div className="product-slider w-full px-4 sm:px-6 lg:px-0">
+      <div className="product-slider__grid grid grid-cols-2 gap-3 sm:grid-cols-2 sm:gap-4 md:grid-cols-3 md:gap-5 lg:grid-cols-4 lg:gap-6">
         {visibleProducts.map((product, i) => (
           <ProductCard
             key={start + i}
@@ -161,11 +161,11 @@ function ProductSlider({ products }) {
         ))}
       </div>
 
-      <div className="product-slider__dots">
+      <div className="product-slider__dots flex justify-center gap-2 mt-4 sm:mt-6">
         {Array.from({ length: totalPages }).map((_, i) => (
           <button
             key={i}
-            className={`product-slider__dot ${i === page ? 'active' : ''}`}
+            className={`product-slider__dot w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full ${i === page ? 'active' : ''}`}
             onClick={() => setPage(i)}
             aria-label={`Page ${i + 1}`}
           />
@@ -192,9 +192,9 @@ export default function Eshop() {
 
   return (
     <>
-      <div className="slider">
+      <div className="slider relative w-full h-[220px] sm:h-[320px] md:h-[420px] lg:h-[500px] overflow-hidden">
         <div
-          className="slider__track"
+          className="slider__track flex h-full transition-transform duration-500"
           style={{ transform: `translateX(-${current * 100}%)` }}
         >
           {slides.map((slide, i) => (
@@ -209,15 +209,15 @@ export default function Eshop() {
                   {slide.title && (
                     <span className="table">
                       <span className="table-cell">
-                        <span className="banner__title fb db fs50 full-width">
+                        <span className="banner__title fb db full-width text-xl sm:text-3xl md:text-4xl lg:text-[50px]">
                           {slide.title}
                         </span>
                         {slide.desc && (
-                          <span className="banner__desc db fs30">{slide.desc}</span>
+                          <span className="banner__desc db text-xs sm:text-lg md:text-2xl lg:text-[30px]">{slide.desc}</span>
                         )}
                         <span className="banner__list-item db fs14"></span>
                         {slide.linkText && (
-                          <span className="banner__link ver-top-box btn trans-background btn--yellow">
+                          <span className="banner__link ver-top-box btn trans-background btn--yellow text-xs sm:text-sm md:text-base px-3 py-1.5 sm:px-4 sm:py-2 mt-2 sm:mt-3 inline-block">
                             {slide.linkText}
                           </span>
                         )}
@@ -236,18 +236,18 @@ export default function Eshop() {
           ))}
         </div>
 
-        <button className="slider__arrow slider__arrow--prev" onClick={prev} aria-label="Previous slide">
+        <button className="slider__arrow slider__arrow--prev hidden sm:flex items-center justify-center w-8 h-8 md:w-10 md:h-10 text-sm md:text-base absolute left-2 md:left-4 top-1/2 -translate-y-1/2" onClick={prev} aria-label="Previous slide">
           &#10094;
         </button>
-        <button className="slider__arrow slider__arrow--next" onClick={next} aria-label="Next slide">
+        <button className="slider__arrow slider__arrow--next hidden sm:flex items-center justify-center w-8 h-8 md:w-10 md:h-10 text-sm md:text-base absolute right-2 md:right-4 top-1/2 -translate-y-1/2" onClick={next} aria-label="Next slide">
           &#10095;
         </button>
 
-        <div className="slider__dots">
+        <div className="slider__dots absolute bottom-2 sm:bottom-4 left-1/2 -translate-x-1/2 flex gap-1.5 sm:gap-2">
           {slides.map((_, i) => (
             <button
               key={i}
-              className={`slider__dot ${i === current ? 'active' : ''}`}
+              className={`slider__dot w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full ${i === current ? 'active' : ''}`}
               onClick={() => goTo(i)}
               aria-label={`Go to slide ${i + 1}`}
             />
@@ -255,19 +255,19 @@ export default function Eshop() {
         </div>
       </div>
 
-      <div className='kartshkaner'>
+      <div className='kartshkaner grid grid-cols-2 gap-3 px-4 py-4 sm:grid-cols-4 sm:gap-4 sm:px-6 sm:py-6 md:px-8 lg:px-0'>
         <CategoryCard icon={<FaMobileAlt />} text="Սմարթֆոններ" />
         <CategoryCard icon={<FaSimCard />} text="Համարներ" />
         <CategoryCard icon={<FaLaptop />} text="Սարքավորումներ" />
         <CategoryCard icon={<FaHeadphones />} text="Աքսեսուարներ" />
-      </div>;
+      </div>
 
-      <div className='heraxosner'>
+      <div className='heraxosner py-4 sm:py-6 md:py-8'>
           <ProductSlider products={products} />
       </div>
       
-      <div className='apreanqi-taki-kartshkeq'>
-          <div className='verevi2'>
+      <div className='apreanqi-taki-kartshkeq flex flex-col gap-3 px-4 py-4 sm:gap-4 sm:px-6 sm:py-6 md:px-8 lg:px-0'>
+          <div className='verevi2 flex flex-col gap-3 sm:flex-row sm:gap-4'>
             <AprenqiTakiKartchkeq
              bcgcolor="aqua"
              h3="Պարզ և հարմար"
@@ -281,7 +281,7 @@ export default function Eshop() {
              button="Մանրամասն >"
             />
         </div>
-        <div className='negev'>
+        <div className='negev flex flex-col gap-3 sm:flex-row sm:gap-4'>
             <AprenqiTakiKartchkeq
              bcgcolor="rgba(207, 200, 136, 0.77)"
              h3="Առցանց ապառիկ"

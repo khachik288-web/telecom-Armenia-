@@ -14,8 +14,8 @@ import Yndanurdrutyuner from './yndanurdrutyuner.jsx';
 import Anvtangutyun from './anvtangutyun.jsx';
 import TeamTVPage from './teamtv.jsx';
 import Myteam from './myteam.jsx';
-import Reg from './reg.jsx'
-
+import Reg from './reg.jsx';
+import LogOut from './logout.jsx'; // 1. ИМПОРТИРУЕМ LOGOUT
 
 import { 
   FaRegUserCircle, FaRegCreditCard, FaShoppingCart, FaBars,
@@ -26,14 +26,30 @@ import {
 
 import './App.css';
 
+// reg-logout guards
 function RegGuard() {
   const isRegistered = localStorage.getItem("isRegistered") === "true";
-
+ 
   if (isRegistered) {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/profile" replace />;
   }
-
+ 
   return <Reg />;
+}
+ 
+function ProfileGuard() {
+  const isRegistered = localStorage.getItem("isRegistered") === "true";
+ 
+  if (!isRegistered) {
+    return <Navigate to="/reg" replace />;
+  }
+ 
+  // 2. ВОЗВРАЩАЕМ LOGOUT ВМЕСТО НЕСУЩЕСТВУЮЩЕГО PROFILE
+  return (
+    <div className="flex justify-center items-center my-10">
+      <LogOut />
+    </div>
+  );
 }
 
 function BusinessPage() {
@@ -50,7 +66,6 @@ function BusinessPage() {
           
           <Carousel.Caption className="business-slider-caption">
             <Row className="align-items-center">
-              
               <Col xs={12} md={7}>
                 <h1 className="business-slider-title">PRO</h1>
                 <div className="business-slider-list">
@@ -68,7 +83,6 @@ function BusinessPage() {
                   style={{ maxHeight: '420px', objectFit: 'contain' }}
                 />
               </Col>
-
             </Row>
           </Carousel.Caption>
         </Carousel.Item>
@@ -173,10 +187,9 @@ function BusinessPage() {
         </div>
       </Container>
 
-      {/* 2. СЕРВИСНЫЕ КАРТОЧКИ (Из файла бизнес_2.PNG) */}
+      {/* СЕРВИСНЫЕ КАРТОЧКИ */}
       <Container className="my-5">
         <Row xs={1} md={2} className="g-4">
-          {/* ԿՈՐՊՈՐԱՏԻՎ ՑԱՆՑԵՐ */}
           <Col>
             <div style={serviceBoxStyle}>
               <div style={{ maxWidth: '65%', zIndex: 2 }}>
@@ -192,7 +205,6 @@ function BusinessPage() {
             </div>
           </Col>
 
-          {/* MOBILE ID */}
           <Col>
             <div style={serviceBoxStyle}>
               <div style={{ maxWidth: '65%', zIndex: 2 }}>
@@ -208,7 +220,6 @@ function BusinessPage() {
             </div>
           </Col>
 
-          {/* M2M ԼՈՒԾՈՒՄՆԵՐ */}
           <Col>
             <div style={serviceBoxStyle}>
               <div style={{ maxWidth: '65%', zIndex: 2 }}>
@@ -222,7 +233,6 @@ function BusinessPage() {
             </div>
           </Col>
 
-          {/* SMS-ԻՆՖՈ */}
           <Col>
             <div style={serviceBoxStyle}>
               <div style={{ maxWidth: '65%', zIndex: 2 }}>
@@ -238,7 +248,7 @@ function BusinessPage() {
         </Row>
       </Container>
 
-      {/* 3. ФОРМА ОБРАТНОЙ СВЯЗИ (Из нижней части бизнес_2.PNG) */}
+      {/* ФОРМА ОБРАТНОЙ СВЯЗИ */}
       <div style={{ backgroundColor: '#001b26', padding: '60px 0', color: '#fff', width: '100%', marginTop: '50px' }}>
         <Container style={{ maxWidth: '850px' }}>
           <h2 className="text-center mb-3" style={{ fontWeight: 'bold', fontSize: '28px', letterSpacing: '0.5px' }}>
@@ -289,43 +299,41 @@ function BusinessPage() {
   );
 }
 
-// ================= ГԼԱՎՆԱЯ СТРАНИЦА (ԱՆՀԱՏՆԵՐԻՆ / ФИЗ. ЛИЦА) =================
 function HomePage() {
   return (
     <>        
-    <div className='slider-img-size'>
-      <Carousel fade> 
+      <div className='slider-img-size'>
+        <Carousel fade> 
+          <Carousel.Item>
+            <img
+              className="d-block w-100 slider-img"
+              src="https://www.telecomarmenia.am/images/block_with_text/1/17781573777003.png"
+              alt="First slide"
+            />
+            <Carousel.Caption>
+              <h3 className="h3">Արի՛ Team Place` քո արտոնությունների հետևից</h3>
+              <button className="btn-red-rounded">Ավելին</button>
+            </Carousel.Caption>
+          </Carousel.Item>
 
-        <Carousel.Item>
-          <img
-            className="d-block w-100 slider-img"
-            src="https://www.telecomarmenia.am/images/block_with_text/1/17781573777003.png"
-            alt="First slide"
-          />
-          <Carousel.Caption>
-            <h3 className="h3">Արի՛ Team Place` քո արտոնությունների հետևից</h3>
-            <button className="btn-red-rounded">Ավելին</button>
-          </Carousel.Caption>
-        </Carousel.Item>
+          <Carousel.Item>
+            <img
+              className="d-block w-100 slider-img"
+              src="https://www.telecomarmenia.am/images/advanced_slider/2/17784978911155.jpeg"
+              alt="Second slide"
+            />
+          </Carousel.Item>
 
-        <Carousel.Item>
-          <img
-            className="d-block w-100 slider-img"
-            src="https://www.telecomarmenia.am/images/advanced_slider/2/17784978911155.jpeg"
-            alt="Second slide"
-          />
-        </Carousel.Item>
+          <Carousel.Item>
+            <img
+              className="d-block w-100 slider-img"
+              src="https://www.telecomarmenia.am/images/advanced_slider/2/17788264270257.jpeg"
+              alt="Third slide"
+            />
+          </Carousel.Item>
+        </Carousel>
+      </div>
 
-        <Carousel.Item>
-          <img
-            className="d-block w-100 slider-img"
-            src="https://www.telecomarmenia.am/images/advanced_slider/2/17788264270257.jpeg"
-            alt="Third slide"
-          />
-        </Carousel.Item>
-
-      </Carousel>
-        </div>
       <Container className="my-5">
         <Row xs={1} md={2} className="g-4">
           <Col>
@@ -473,9 +481,10 @@ function Header() {
               <a href="#en" style={{ color: '#b0cddb', textDecoration: 'none' }}>Eng</a>
             </div>
             <span style={{ color: '#09435e' }}>|</span>
-            <a href="/reg" className="cabinet-link">
+            {/* 3. ИСПОЛЬЗУЕМ LINK ВМЕСТО ОБЫЧНОГО A TAG */}
+            <Link to="/reg" className="cabinet-link">
               <FaRegUserCircle size={16} /> <span>Անձնական գրասենյակ</span>
-            </a>
+            </Link>
           </div>
         </Container>
       </div>
@@ -522,10 +531,12 @@ function App() {
         <Route path="/kapiTangaran" element={<KapiTangaran />} />
         <Route path="/norutyuner" element={<Norutyuner />} />
         <Route path="/yndanurdrutyuner" element={<Yndanurdrutyuner />} />
-        <Route path="/anvtangutyun" element={<Anvtangutyun />} />\
+        <Route path="/anvtangutyun" element={<Anvtangutyun />} />
         <Route path="/teamtv" element={<TeamTVPage />} />
         <Route path="/myteam" element={<Myteam/>} />
         <Route path="/reg" element={<RegGuard/>} />
+        {/* 4. ДОБАВЛЕН НЕДОСТАЮЩИЙ МАРШРУТ /PROFILE */}
+        <Route path="/profile" element={<ProfileGuard />} />
       </Routes>
 
       <footer className="footer-main">
@@ -579,131 +590,20 @@ function App() {
   );
 }
 
-
-
-
-const tariffCardBadgeStyle = {
-  fontSize: '15px',
-  fontWeight: '600',
-  color: '#546e7a',
-  display: 'block',
-  marginBottom: '2px',
-  letterSpacing: '1px'
-};
-
-const tariffCardPriceStyle = {
-  fontSize: '32px',
-  fontWeight: 'bold',
-  color: '#00293c',
-  margin: '0'
-};
-
-const tariffSpecListStyle = {
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '14px',
-  margin: '20px 0',
-  color: '#455a64',
-  fontSize: '15px',
-  paddingLeft: '10px'
-};
-
-const specItemStyle = {
-  display: 'flex',
-  alignItems: 'center',
-  gap: '10px'
-};
-
-const specIconStyle = {
-  color: '#78909c'
-};
-
-const badge4GStyle = {
-  border: '1px solid #00293c',
-  borderRadius: '4px',
-  fontSize: '10px',
-  fontWeight: 'bold',
-  padding: '1px 4px',
-  color: '#00293c',
-  lineHeight: '1'
-};
-
-const socialDotStyle = {
-  width: '18px',
-  height: '18px',
-  borderRadius: '50%',
-  display: 'inline-block'
-};
-
-const tariffButtonStyle = {
-  background: 'transparent',
-  border: '1px solid #f1534f',
-  color: '#f1534f',
-  borderRadius: '20px',
-  padding: '8px 30px',
-  fontSize: '13px',
-  fontWeight: '600',
-  transition: '0.2s',
-  cursor: 'pointer'
-};
-
-const serviceBoxStyle = {
-  background: 'linear-gradient(135deg, #002d3f 0%, #004d6b 100%)',
-  borderRadius: '8px',
-  padding: '35px 30px',
-  minHeight: '160px',
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  position: 'relative',
-  overflow: 'hidden',
-  color: '#fff'
-};
-
-const serviceBoxTitleStyle = {
-  fontSize: '18px',
-  fontWeight: 'bold',
-  marginBottom: '8px',
-  letterSpacing: '0.5px'
-};
-
-const serviceBoxSubStyle = {
-  fontSize: '13px',
-  color: '#b0bec5',
-  marginBottom: '16px',
-  lineHeight: '1.4'
-};
-
-const serviceBoxLinkStyle = {
-  color: '#f1534f',
-  textDecoration: 'none',
-  fontSize: '14px',
-  fontWeight: '600'
-};
-
-const circleGraphicBackingStyle = {
-  position: 'absolute',
-  right: '25px',
-  bottom: '25px',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center'
-};
-
-const formLabelStyle = {
-  fontSize: '13px',
-  color: '#b0bec5',
-  marginBottom: '6px',
-  display: 'block',
-  paddingLeft: '4px'
-};
-
-const formInputStyle = {
-  borderRadius: '20px',
-  backgroundColor: '#fff',
-  border: 'none',
-  padding: '11px 20px',
-  fontSize: '14px'
-};
+const tariffCardBadgeStyle = { fontSize: '15px', fontWeight: '600', color: '#546e7a', display: 'block', marginBottom: '2px', letterSpacing: '1px' };
+const tariffCardPriceStyle = { fontSize: '32px', fontWeight: 'bold', color: '#00293c', margin: '0' };
+const tariffSpecListStyle = { display: 'flex', flexDirection: 'column', gap: '14px', margin: '20px 0', color: '#455a64', fontSize: '15px', paddingLeft: '10px' };
+const specItemStyle = { display: 'flex', alignItems: 'center', gap: '10px' };
+const specIconStyle = { color: '#78909c' };
+const badge4GStyle = { border: '1px solid #00293c', borderRadius: '4px', fontSize: '10px', fontWeight: 'bold', padding: '1px 4px', color: '#00293c', lineHeight: '1' };
+const socialDotStyle = { width: '18px', height: '18px', borderRadius: '50%', display: 'inline-block' };
+const tariffButtonStyle = { background: 'transparent', border: '1px solid #f1534f', color: '#f1534f', borderRadius: '20px', padding: '8px 30px', fontSize: '13px', fontWeight: '600', transition: '0.2s', cursor: 'pointer' };
+const serviceBoxStyle = { background: 'linear-gradient(135deg, #002d3f 0%, #004d6b 100%)', borderRadius: '8px', padding: '35px 30px', minHeight: '160px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'relative', overflow: 'hidden', color: '#fff' };
+const serviceBoxTitleStyle = { fontSize: '18px', fontWeight: 'bold', marginBottom: '8px', letterSpacing: '0.5px' };
+const serviceBoxSubStyle = { fontSize: '13px', color: '#b0bec5', marginBottom: '16px', lineHeight: '1.4' };
+const serviceBoxLinkStyle = { color: '#f1534f', textDecoration: 'none', fontSize: '14px', fontWeight: '600' };
+const circleGraphicBackingStyle = { position: 'absolute', right: '25px', bottom: '25px', display: 'flex', alignItems: 'center', justifyContent: 'center' };
+const formLabelStyle = { fontSize: '13px', color: '#b0bec5', marginBottom: '6px', display: 'block', paddingLeft: '4px' };
+const formInputStyle = { borderRadius: '20px', backgroundColor: '#fff', border: 'none', padding: '11px 20px', fontSize: '14px' };
 
 export default App;

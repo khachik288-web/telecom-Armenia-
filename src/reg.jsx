@@ -3,6 +3,9 @@ import { Eye, EyeOff } from "lucide-react";
 import { db } from "./firebase";
 import { ref, push } from "firebase/database";
 import { useNavigate } from "react-router-dom";
+import { FcGoogle } from "react-icons/fc";
+import { signInWithPopup } from "firebase/auth";
+import { auth, googleProvider } from "./firebase";
 
 export default function Reg() {
   const [clientType, setClientType] = useState("personal"); 
@@ -11,16 +14,35 @@ export default function Reg() {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+ 
+
+  const handleGoogleLogin = async () => {
+  try {
+    const result = await signInWithPopup(auth, googleProvider);
+    const user = result.user;
+
+    localStorage.setItem("isRegistered", "true");
+    localStorage.setItem("userName", user.displayName);
+    localStorage.setItem("userEmail", user.email);
+    localStorage.setItem("userPhoto", user.photoURL);
+
+    navigate("/profile");
+  } catch (err) {
+    console.error(err);
+    alert("Սխալ Google-ով մուտքի ժամանակ");
+  }
+  };
 
   const handleRegister = async () => {
   try {
-    await push(ref(db, "users"), {
+    const newUserRef = await push(ref(db, "users"), {
       phone: phone,
       password: password,
       createdAt: new Date().toISOString(),
     });
     localStorage.setItem("isRegistered", "true");
-    navigate("/");
+    localStorage.setItem("userId", newUserRef.key);
+    navigate("/profile");
   } catch (err) {
     console.error(err);
     alert("Սխալ գրանցման ժամանակ");
@@ -32,9 +54,6 @@ export default function Reg() {
       {/* dzax panel */}
       <div className="w-full max-w-md bg-slate-50 flex flex-col px-16 py-10">
         <img src="https://www.telecomarmenia.am/images/team_apps/1/16510708696227.png" className="w-[80px] h-[80px] mb-[25px]" />
-
-        {/* anhat kam bizn*/}
-        
 
         {/* kartshki chapser */}
         <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-8">
@@ -58,7 +77,7 @@ export default function Reg() {
               </button>
             ))}
           </div>
-
+ 
           <form className="flex flex-col gap-5">
             {/* gmail */}
             <div>
@@ -82,7 +101,7 @@ export default function Reg() {
                 />
               )}
             </div>
-
+ 
             {/* parol */}
             <div>
               <label className="block text-xs text-slate-500 mb-1">
@@ -103,7 +122,7 @@ export default function Reg() {
                 </button>
               </div>
             </div>
-
+ 
             {/* mutq */}
             <button
               type="submit"
@@ -111,7 +130,16 @@ export default function Reg() {
             >
               Մուտք
             </button>
-
+            
+            {/* googlov */}
+            <button
+              type="button"
+              onClick={handleGoogleLogin}
+              className="w-full border border-[#e8615a] bg-white hover:bg-[#dd534c] text-[#e8615a] font-medium rounded-full py-3 mt-2 flex"
+            >
+            <FcGoogle size={20} className="ml-[55px] mt-[3px]"/>
+            <span>Մուտք Google-ով</span>
+            </button>
             {/* registracia*/}
             <button
               type="button"
@@ -123,15 +151,15 @@ export default function Reg() {
           </form>
         </div>
       </div>
-
+ 
       {/* sarerum aper */}
       <div className="relative flex-1 bg-[url('https://burst.shopifycdn.com/photos/man-hiking-in-mountains.jpg?exif=0&iptc=0')] bg-cover bg-center">
         <div className="absolute inset-0 bg-black/10" />
-
+ 
         <h1 className="absolute top-16 left-16 text-white text-5xl font-bold drop-shadow-lg">
           ԱՆԶՆԱԿԱՆ ԳՐԱՍԵՆՅԱԿ
         </h1>
-
+ 
       </div>
     </div>
   );

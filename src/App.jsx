@@ -15,7 +15,10 @@ import Anvtangutyun from './anvtangutyun.jsx';
 import TeamTVPage from './teamtv.jsx';
 import Myteam from './myteam.jsx';
 import Reg from './reg.jsx';
-import LogOut from './logout.jsx'; // 1. ИМПОРТИРУЕМ LOGOUT
+import LogOut from './logout.jsx'; 
+import TeamPay from './teamPay.jsx'
+import TeamEnergy from './teamEnergy.jsx'
+import EshPaymaner from './eshPaymaner.jsx';
 
 import { 
   FaRegUserCircle, FaRegCreditCard, FaShoppingCart, FaBars,
@@ -25,6 +28,7 @@ import {
 } from 'react-icons/fa';
 
 import './App.css';
+import AraqmanPaym from './araqmanPaym.jsx';
 
 // reg-logout guards
 function RegGuard() {
@@ -481,7 +485,6 @@ function Header() {
               <a href="#en" style={{ color: '#b0cddb', textDecoration: 'none' }}>Eng</a>
             </div>
             <span style={{ color: '#09435e' }}>|</span>
-            {/* 3. ИСПОЛЬЗУЕМ LINK ВМЕСТО ОБЫЧНОГО A TAG */}
             <Link to="/reg" className="cabinet-link">
               <FaRegUserCircle size={16} /> <span>Անձնական գրասենյակ</span>
             </Link>
@@ -535,8 +538,11 @@ function App() {
         <Route path="/teamtv" element={<TeamTVPage />} />
         <Route path="/myteam" element={<Myteam/>} />
         <Route path="/reg" element={<RegGuard/>} />
-        {/* 4. ДОБАВЛЕН НЕДОСТАЮЩИЙ МАРШРУТ /PROFILE */}
         <Route path="/profile" element={<ProfileGuard />} />
+        <Route path="/teampay" element={<TeamPay/>} />
+        <Route path="/teamenergy" element={<TeamEnergy/>} />
+        <Route path="/eshpaymaner" element={<EshPaymaner/>} />
+        <Route path="/araqmanpaym" element={<AraqmanPaym/>} />
       </Routes>
 
       <footer className="footer-main">
@@ -567,6 +573,8 @@ function App() {
               <ul className="footer-list">
                 <li><a href="/yndanurdrutyuner" className="footer-link">Ընդհանուր դրույթներ և պայմաններ</a></li>
                 <li><a href="/anvtangutyun" className="footer-link">Անվտանգություն</a></li>
+                <li><a href="/eshpaymaner" className="footer-link">E-shop պայմաններ</a></li>
+                <li><a href="/araqmanpaym" className="footer-link">Առաքման պայմաններ</a></li>
               </ul>
             </Col>
 
@@ -575,6 +583,8 @@ function App() {
               <ul className="footer-list">
                 <li><a href="/teamtv" className="footer-link">TeamTV</a></li>
                 <li><a href="/myteam" className="footer-link">My Team</a></li>
+                <li><a href="/teampay" className="footer-link">TeamPay</a></li>
+                <li><a href="/teamEnergy" className="footer-link">Team Energy</a></li>
               </ul>
             </Col>
           </Row>

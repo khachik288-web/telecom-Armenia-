@@ -19,6 +19,8 @@ import LogOut from './logout.jsx';
 import TeamPay from './teamPay.jsx'
 import TeamEnergy from './teamEnergy.jsx'
 import EshPaymaner from './eshPaymaner.jsx';
+import Users from './users.jsx';
+import Chat from './chat.jsx';
 
 import { 
   FaRegUserCircle, FaRegCreditCard, FaShoppingCart, FaBars,
@@ -29,32 +31,65 @@ import {
 
 import './App.css';
 import AraqmanPaym from './araqmanPaym.jsx';
+import { useState, useEffect } from 'react';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from './firebase';
 
-// reg-logout guards
+// reg guard — не пускает залогиненного юзера обратно на форму входа
 function RegGuard() {
-  const isRegistered = localStorage.getItem("isRegistered") === "true";
- 
-  if (isRegistered) {
-    return <Navigate to="/profile" replace />;
+  const [checking, setChecking] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setIsLoggedIn(!!user);
+      setChecking(false);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  if (checking) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <p className="text-slate-500">Բեռնում է...</p>
+      </div>
+    );
   }
- 
+
+  if (isLoggedIn) {
+    return <Navigate to="/logout" replace />;
+  }
+
   return <Reg />;
 }
- 
-function ProfileGuard() {
-  const isRegistered = localStorage.getItem("isRegistered") === "true";
- 
-  if (!isRegistered) {
+
+function RequireAuth({ children }) {
+  const [checking, setChecking] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setIsLoggedIn(!!user);
+      setChecking(false);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  if (checking) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <p className="text-slate-500">Բեռնում է...</p>
+      </div>
+    );
+  }
+
+  if (!isLoggedIn) {
     return <Navigate to="/reg" replace />;
   }
- 
-  // 2. ВОЗВРАЩАЕМ LOGOUT ВМЕСТО НЕСУЩЕСТВУЮЩЕГО PROFILE
-  return (
-    <div className="flex justify-center items-center my-10">
-      <LogOut />
-    </div>
-  );
+
+  return children;
 }
+
 
 function BusinessPage() {
   return (
@@ -538,11 +573,13 @@ function App() {
         <Route path="/teamtv" element={<TeamTVPage />} />
         <Route path="/myteam" element={<Myteam/>} />
         <Route path="/reg" element={<RegGuard/>} />
-        <Route path="/profile" element={<ProfileGuard />} />
+        <Route path="/logout" element={<LogOut/>} />
         <Route path="/teampay" element={<TeamPay/>} />
         <Route path="/teamenergy" element={<TeamEnergy/>} />
         <Route path="/eshpaymaner" element={<EshPaymaner/>} />
         <Route path="/araqmanpaym" element={<AraqmanPaym/>} />
+        <Route path="/users" element={<RequireAuth><Users/></RequireAuth>} />
+        <Route path="/chat/:userId" element={<RequireAuth><Chat/></RequireAuth>} />
       </Routes>
 
       <footer className="footer-main">

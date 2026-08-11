@@ -87,10 +87,6 @@ export default function LogOut() {
           </div>
         )}
 
-        <Link to="/users" className="text-sky-600 underline text-sm">
-         Գրել հաղորդագրություն
-        </Link>
-
         <div className="mt-4">
           <button
             onClick={handleLogOut}

@@ -19,8 +19,20 @@ import LogOut from './logout.jsx';
 import TeamPay from './teamPay.jsx'
 import TeamEnergy from './teamEnergy.jsx'
 import EshPaymaner from './eshPaymaner.jsx';
-import Users from './users.jsx';
-import Chat from './chat.jsx';
+import ChatWidget from './chatWidget.jsx';
+import { useNavigate } from "react-router-dom";
+import AshxTelArm from './ashxTelArm.jsx';
+import Ardyunq from './ardyunq.jsx';
+import Etika from './etika.jsx';
+import Zargacum from './zargacum.jsx';
+import Bajnetirner from './bajnetirner.jsx';
+import Vacharq from './vacharq.jsx';
+import Cacquyt from './cacquyt.jsx';
+import Bjc from './bjc.jsx';
+import ToxnelH from './toxnelH.jsx';
+import Ogtakar from './ogtakar.jsx';
+import Gorcynkerner from './gorcynkerner.jsx';
+
 
 import { 
   FaRegUserCircle, FaRegCreditCard, FaShoppingCart, FaBars,
@@ -34,11 +46,15 @@ import AraqmanPaym from './araqmanPaym.jsx';
 import { useState, useEffect } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './firebase';
+import ArdyunqnerHashvetvutyunner from './ardyunq.jsx';
+import Marz from './marz.jsx';
+
 
 // reg guard — не пускает залогиненного юзера обратно на форму входа
 function RegGuard() {
   const [checking, setChecking] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -344,15 +360,23 @@ function HomePage() {
       <div className='slider-img-size'>
         <Carousel fade> 
           <Carousel.Item>
-            <img
-              className="d-block w-100 slider-img"
-              src="https://www.telecomarmenia.am/images/block_with_text/1/17781573777003.png"
-              alt="First slide"
-            />
-            <Carousel.Caption>
-              <h3 className="h3">Արի՛ Team Place` քո արտոնությունների հետևից</h3>
-              <button className="btn-red-rounded">Ավելին</button>
-            </Carousel.Caption>
+            <div className="w-full h-full bg-[#c8e8f0] flex items-center justify-between px-20">
+              <div className="flex flex-col max-w-lg h-[700px]">
+                <h2 className="text-4xl font-bold text-[#00293c] leading-tight mt-[200px]">
+                  Samsung Galaxy Z Fold8 Ultra | Fold8 | Flip8
+                </h2>
+                <p className="text-slate-500 text-lg mt-4">Նախավաճառք</p>
+                <button className="btn-red-rounded w-fit mt-6">Ավելին</button>
+              </div>
+
+              <div className="bg-white rounded-3xl p-8 shadow-lg">
+                <img
+                  src="https://www.telecomarmenia.am/images/advanced_slider/2/17857419207587.png"
+                  alt="Samsung Galaxy Z Fold8 Ultra | Fold8 | Flip8"
+                  className="max-h-[380px] object-contain"
+                />
+              </div>
+            </div>
           </Carousel.Item>
 
           <Carousel.Item>
@@ -482,31 +506,146 @@ function HomePage() {
 }
 
 // ================= КОМПОНЕНТ ХЕДЕРА =================
+const NAV_MENUS = {
+  tariffs: {
+    label: "Սակագներ",
+    href: "#tariffs",
+    items: [
+      { label: "Բջջային կապ", href: "#mobile" },
+      { label: "Ինտերնետ և TV - ԿՈՄՊ", href: "#internet-tv-comp" },
+      { label: "Ինտերնետ և TV - ԿՈՄԲ", href: "#internet-tv-comb" },
+      { label: "Ֆիքսված հեռախոսակապ", href: "#fixed-phone" },
+    ],
+  },
+  internet: {
+    label: "Ինտերնետ",
+    href: "#internet",
+    items: [
+      { label: "Սմարթֆոնի համար", href: "#smartphone" },
+      { label: "Տան համար - ԿՈՄՊ", href: "#home-comp" },
+      { label: "Տան համար - ԿՈՄԲ", href: "#home-comb" },
+      { label: "Համակարգչի/պլանշետի համար", href: "#pc-tablet" },
+      { label: "Team 5G", href: "#team-5g" },
+    ],
+  },
+  services: {
+    label: "Ծառայություններ",
+    href: "#services",
+    items: [
+      { label: "TeamTV", href: "/teamtv" },
+      { label: "Վճարում և համալրում", href: "#payment" },
+      { label: "Զվարճանք", href: "#entertainment" },
+      { label: "Ցանցեր և անվտանգություն", href: "/anvtangutyun" },
+      { label: "Ֆիքսված հեռախոսակապ", href: "#fixed-phone" },
+    ],
+  },
+  roaming: {
+    label: "Ռոումինգ",
+    href: "#roaming",
+    items: [
+      { label: "Ռուումինգ", href: "#roaming-info" },
+      { label: "Միջազգային կապ", href: "#international" },
+      { label: "Օգտակար տեղեկատվություն", href: "#useful-info" },
+      { label: "Ծառայություններ", href: "#roaming-services" },
+    ],
+  },
+  onlineShop: {
+    label: "Առցանց խանութ",
+    href: "#online-shop",
+    items: [
+      { label: "E-shop", href: "/eshop" },
+      { label: "Առցանց ապառիկ", href: "#installment" },
+      { label: "Բաժանորդագրություն", href: "#subscription" },
+    ],
+  },
+  offers: {
+    label: "Առաջարկներ",
+    href: "#offers",
+    items: [
+      { label: "Ընտրի՛ր և Շահի՛ր", href: "#win" },
+      { label: "Team Բոնուս", href: "#bonus" },
+      { label: "Ակցիաներ", href: "#promotions" },
+      { label: "MobiBattle", href: "#mobibattle" },
+      { label: "GeForce Games", href: "#geforce" },
+      { label: "Koreez", href: "#koreez" },
+    ],
+  },
+  help: {
+    label: "Օգնություն",
+    href: "#help",
+    items: [
+      { label: "Հաճախ տրվող հարցեր", href: "#faq" },
+      { label: "Սարքերի կարգավորումներ", href: "#device-settings" },
+      { label: "Բաժանորդային սպասարկում", href: "#subscriber-service" },
+      { label: "USSD հրահանգներ և օգտակար համարներ", href: "#ussd" },
+    ],
+  },
+};
+
+function NavDropdown({ menuKey, openMenu, setOpenMenu }) {
+  const menu = NAV_MENUS[menuKey];
+  const isOpen = openMenu === menuKey;
+
+  return (
+    <div
+      className="relative"
+      onMouseEnter={() => setOpenMenu(menuKey)}
+      onMouseLeave={() => setOpenMenu(null)}
+    >
+      <a
+        href={menu.href}
+        className={`main-menu-link ${isOpen ? "text-[#f1534f]" : ""}`}
+      >
+        {menu.label}
+      </a>
+
+      {isOpen && (
+        <div className="absolute top-full left-0 pt-2 z-50">
+          <div className="w-56 bg-white rounded-md shadow-xl border border-slate-100 overflow-hidden">
+            {menu.items.map((item, i) => (
+              <a
+                key={item.href}
+                href={item.href}
+                className={`block px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 ${
+                  i !== menu.items.length - 1 ? "border-b border-slate-100" : ""
+                }`}
+              >
+                {item.label}
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function Header() {
-  const location = useLocation(); 
+  const location = useLocation();
+  const [openMenu, setOpenMenu] = useState(null);
 
   return (
     <header className="app-header-container">
       <div className="top-blue-panel">
         <Container className="d-flex justify-content-between align-items-center px-0" style={{ height: '42px' }}>
-          
+
           <div className="d-flex h-100 align-items-center">
-            <Link 
-              to="/" 
+            <Link
+              to="/"
               className={`top-bar-tab ${location.pathname === '/' ? 'active-tab' : ''}`}
             >
               Անհատներին
             </Link>
-            <Link 
-              to="/business" 
+            <Link
+              to="/business"
               className={`top-bar-tab ${location.pathname === '/business' ? 'active-tab' : ''}`}
             >
               Բիզնես
             </Link>
             <Link
-              to="/eshop" 
+              to="/eshop"
               className={`top-bar-tab ${location.pathname === '/eshop' ? 'active-tab' : ''}`}
-            >         
+            >
               E-shop
             </Link>
           </div>
@@ -530,25 +669,47 @@ function Header() {
       <div className="bottom-white-panel">
         <Container className="d-flex justify-content-between align-items-center px-0" style={{ height: '85px' }}>
           <Link to="/" className="ps-3 d-flex align-items-center">
-            <img 
-              src="https://www.telecomarmenia.am/images/team_apps/1/16510708696227.png" 
-              alt="telecom armenia" 
-              style={{ height: '52px' }} 
+            <img
+              src="https://www.telecomarmenia.am/images/team_apps/1/16510708696227.png"
+              alt="telecom armenia"
+              style={{ height: '52px' }}
             />
           </Link>
 
           <nav className="d-flex align-items-center gap-4">
-            <a href="#tariffs" className="main-menu-link">Սակագներ</a>
-            <a href="#internet" className="main-menu-link">Ինտերնետ</a>
-            <a href="#services" className="main-menu-link">Ծառայություններ</a>
-            <a href="#roaming" className="main-menu-link">Ռոումինգ</a>
-            <a href="#online-shop" className="main-menu-link">Առցանց խանութ</a>
-            <a href="#offers" className="main-menu-link">Առաջարկներ</a>
-            <a href="#help" className="main-menu-link">Օգնություն</a>
+            <NavDropdown menuKey="tariffs" openMenu={openMenu} setOpenMenu={setOpenMenu} />
+            <NavDropdown menuKey="internet" openMenu={openMenu} setOpenMenu={setOpenMenu} />
+            <NavDropdown menuKey="services" openMenu={openMenu} setOpenMenu={setOpenMenu} />
+            <NavDropdown menuKey="roaming" openMenu={openMenu} setOpenMenu={setOpenMenu} />
+            <NavDropdown menuKey="onlineShop" openMenu={openMenu} setOpenMenu={setOpenMenu} />
+            <NavDropdown menuKey="offers" openMenu={openMenu} setOpenMenu={setOpenMenu} />
+            <NavDropdown menuKey="help" openMenu={openMenu} setOpenMenu={setOpenMenu} />
           </nav>
 
-          <div className="h-100 d-flex align-items-center">
+          <div
+            className="relative h-100 d-flex align-items-center"
+            onMouseEnter={() => setOpenMenu("cart")}
+            onMouseLeave={() => setOpenMenu(null)}
+          >
             <div className="blue-card-box"><FaRegCreditCard size={25} color="#00293c" /></div>
+
+            {openMenu === "cart" && (
+              <div className="absolute top-full right-0 pt-2 z-50">
+                <div className="w-56 bg-white rounded-md shadow-xl border border-slate-100 overflow-hidden">
+                  {NAV_MENUS.help.items.map((item, i) => (
+                    <a
+                      key={item.href}
+                      href={item.href}
+                      className={`block px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 ${
+                        i !== NAV_MENUS.help.items.length - 1 ? "border-b border-slate-100" : ""
+                      }`}
+                    >
+                      {item.label}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </Container>
       </div>
@@ -578,8 +739,18 @@ function App() {
         <Route path="/teamenergy" element={<TeamEnergy/>} />
         <Route path="/eshpaymaner" element={<EshPaymaner/>} />
         <Route path="/araqmanpaym" element={<AraqmanPaym/>} />
-        <Route path="/users" element={<RequireAuth><Users/></RequireAuth>} />
-        <Route path="/chat/:userId" element={<RequireAuth><Chat/></RequireAuth>} />
+        <Route path='/ashxtelarm' element={<AshxTelArm/>} />
+        <Route path='/ardyunq' element={<Ardyunq/>} />
+        <Route path='/etika' element={<Etika/>} />
+        <Route path='/zargacum' element={<Zargacum/>} />
+        <Route path='/bajnetirner' element={<Bajnetirner/>} />
+        <Route path='/vacharq' element={<Vacharq/>} />
+        <Route path='/cacquyt' element={<Cacquyt/>} />
+        <Route path='/bjc' element={<Bjc/>} />
+        <Route path='/toxnelh' element={<ToxnelH/>} />
+        <Route path='/ogtakar' element={<Ogtakar/>} />
+        <Route path='/gorcynkerner' element={<Gorcynkerner/>} />
+        <Route path='/marz' element={<Marz/>} />
       </Routes>
 
       <footer className="footer-main">
@@ -602,6 +773,11 @@ function App() {
                 <li><Link to="/merMasin" className="footer-link">Մեր մասին</Link></li>
                 <li><Link to="/kapiTangaran" className="footer-link">Կապի թանգարան</Link></li>
                 <li><a href="/norutyuner" className="footer-link">Նորություններ</a></li>
+                <li><a href="/ashxTelArm" className="footer-link">Աշխատանք Տելեկոմ Արմենիայում</a></li>
+                <li><a href="/ardyunq" className="footer-link">Արդյունքներ և հաշվետվություններ</a></li>
+                <li><a href="/etika" className="footer-link">Գործարար Էթիկա և Կոմպլայենս</a></li>
+                <li><a href="/zargacum" className="footer-link">Կայուն զարգացում</a></li>
+                <li><a href="/bajnetirner" className="footer-link">Բաժնետերերին</a></li>
               </ul>
             </Col>
 
@@ -612,6 +788,13 @@ function App() {
                 <li><a href="/anvtangutyun" className="footer-link">Անվտանգություն</a></li>
                 <li><a href="/eshpaymaner" className="footer-link">E-shop պայմաններ</a></li>
                 <li><a href="/araqmanpaym" className="footer-link">Առաքման պայմաններ</a></li>
+                <li><a href="/vacharq" className="footer-link">Վաճառքի և սպասարկման կենտրոններ</a></li>
+                <li><a href="/cacquyt" className="footer-link">Ծածկույթ</a></li>
+                <li><a href="/bjc" className="footer-link">Բջջային ցանցի ծածկույթ</a></li>
+                <li><a href="/toxnelh" className="footer-link">Թողնել հայտ</a></li>
+                <li><a href="/ogtakar" className="footer-link">Օգտակար փաստաթղթեր</a></li>
+                <li><a href="/gorcynkerner" className="footer-link">Գաղտնիության քաղաքականություն </a></li>
+                <li><a href="/marz" className="footer-link">ՀՀ մարզերի կոդեր </a></li>
               </ul>
             </Col>
 
@@ -633,6 +816,8 @@ function App() {
           </Container>
         </div>
       </footer>
+
+      <ChatWidget />
     </Router>
   );
 }

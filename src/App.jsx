@@ -36,7 +36,7 @@ import BjjayinKap from './bjjayinKap.jsx';
 import InternetTvKomb from './InternetTvKomb.jsx';
 import FixedPhone from './fixedPhone.jsx';
 import TvKomp from './TvKomp.jsx';
-
+import HelpPage from './help.jsx';
 
 import { 
   FaRegUserCircle, FaRegCreditCard, FaShoppingCart, FaBars,
@@ -574,16 +574,16 @@ const NAV_MENUS = {
       { label: "Koreez", href: "#koreez" },
     ],
   },
-  help: {
-    label: "Օգնություն",
-    href: "#help",
-    items: [
-      { label: "Հաճախ տրվող հարցեր", href: "#faq" },
-      { label: "Սարքերի կարգավորումներ", href: "#device-settings" },
-      { label: "Բաժանորդային սպասարկում", href: "#subscriber-service" },
-      { label: "USSD հրահանգներ և օգտակար համարներ", href: "#ussd" },
-    ],
-  },
+help: {
+  label: "Օգնություն",
+  href: "/help",
+  items: [
+    { label: "Հաճախ տրվող հարցեր", href: "/help" },
+    { label: "Սարքերի կարգավորումներ", href: "/help" },
+    { label: "Բաժանորդային սպասարկում", href: "/help" },
+    { label: "USSD հրահանգներ և օգտակար համարներ", href: "/help" },
+  ],
+},
 };
 
 function NavDropdown({ menuKey, openMenu, setOpenMenu }) {
@@ -759,6 +759,7 @@ function App() {
         <Route path="/sakagner/internet-tv-komb" element={<InternetTvKomb />} />
         <Route path="/sakagner/fixed-phone" element={<FixedPhone />} />
         <Route path="/sakagner/tvkomp" element={<TvKomp />} />
+        <Route path="/help" element={<HelpPage />} />
       </Routes>
 
       <footer className="footer-main">

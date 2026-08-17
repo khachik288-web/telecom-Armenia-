@@ -32,6 +32,10 @@ import Bjc from './bjc.jsx';
 import ToxnelH from './toxnelH.jsx';
 import Ogtakar from './ogtakar.jsx';
 import Gorcynkerner from './gorcynkerner.jsx';
+import BjjayinKap from './bjjayinKap.jsx';
+import InternetTvKomb from './InternetTvKomb.jsx';
+import FixedPhone from './fixedPhone.jsx';
+import TvKomp from './TvKomp.jsx';
 
 
 import { 
@@ -511,10 +515,10 @@ const NAV_MENUS = {
     label: "Սակագներ",
     href: "#tariffs",
     items: [
-      { label: "Բջջային կապ", href: "#mobile" },
-      { label: "Ինտերնետ և TV - ԿՈՄՊ", href: "#internet-tv-comp" },
-      { label: "Ինտերնետ և TV - ԿՈՄԲ", href: "#internet-tv-comb" },
-      { label: "Ֆիքսված հեռախոսակապ", href: "#fixed-phone" },
+      { label: "Բջջային կապ", href: "/sakagner/bjjayin-kap" },
+      {  label: "Ինտերնետ և TV - ԿՈՄՊ", href: "/sakagner/tvkomp" },,
+      { label: "Ինտերնետ և TV - ԿՈՄԲ", href: "/sakagner/internet-tv-komb" },
+      { label: "Ֆիքսված հեռախոսակապ", href: "/sakagner/fixed-phone" },
     ],
   },
   internet: {
@@ -751,6 +755,10 @@ function App() {
         <Route path='/ogtakar' element={<Ogtakar/>} />
         <Route path='/gorcynkerner' element={<Gorcynkerner/>} />
         <Route path='/marz' element={<Marz/>} />
+        <Route path="/sakagner/bjjayin-kap" element={<BjjayinKap />} />
+        <Route path="/sakagner/internet-tv-komb" element={<InternetTvKomb />} />
+        <Route path="/sakagner/fixed-phone" element={<FixedPhone />} />
+        <Route path="/sakagner/tvkomp" element={<TvKomp />} />
       </Routes>
 
       <footer className="footer-main">

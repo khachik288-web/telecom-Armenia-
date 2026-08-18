@@ -37,6 +37,8 @@ import InternetTvKomb from './InternetTvKomb.jsx';
 import FixedPhone from './fixedPhone.jsx';
 import TvKomp from './TvKomp.jsx';
 import HelpPage from './help.jsx';
+import Shake from './Shake.jsx';
+
 
 import { 
   FaRegUserCircle, FaRegCreditCard, FaShoppingCart, FaBars,
@@ -563,17 +565,18 @@ const NAV_MENUS = {
     ],
   },
   offers: {
-    label: "Առաջարկներ",
-    href: "#offers",
-    items: [
-      { label: "Ընտրի՛ր և Շահի՛ր", href: "#win" },
-      { label: "Team Բոնուս", href: "#bonus" },
-      { label: "Ակցիաներ", href: "#promotions" },
-      { label: "MobiBattle", href: "#mobibattle" },
-      { label: "GeForce Games", href: "#geforce" },
-      { label: "Koreez", href: "#koreez" },
-    ],
-  },
+  label: "Առաջարկներ",
+  href: "#offers",
+  items: [
+    { label: "Շեյքի՛ր եւ Շահի՛ր", href: "/shake" },
+    { label: "Ընտրի՛ր և Շահի՛ր", href: "#win" },
+    { label: "Team Բոնուս", href: "#bonus" },
+    { label: "Ակցիաներ", href: "#promotions" },
+    { label: "MobiBattle", href: "#mobibattle" },
+    { label: "GeForce Games", href: "#geforce" },
+    { label: "Koreez", href: "#koreez" },
+  ],
+ },
 help: {
   label: "Օգնություն",
   href: "/help",
@@ -760,6 +763,7 @@ function App() {
         <Route path="/sakagner/fixed-phone" element={<FixedPhone />} />
         <Route path="/sakagner/tvkomp" element={<TvKomp />} />
         <Route path="/help" element={<HelpPage />} />
+        <Route path="/shake" element={<Shake />} />
       </Routes>
 
       <footer className="footer-main">

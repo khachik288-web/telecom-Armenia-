@@ -38,6 +38,16 @@ import FixedPhone from './fixedPhone.jsx';
 import TvKomp from './TvKomp.jsx';
 import HelpPage from './help.jsx';
 import Shake from './Shake.jsx';
+import InternetSmartphone from './internetSmartphone .jsx';
+import PcTabletInternet from './PcTabletInternet.jsx';
+import Team5G from './Team5G.jsx';
+import Zvarchanq from './zvarchanq.jsx';
+import Roaming from './roaming.jsx';
+import InternationalCalls from './InternationalCalls.jsx';
+import UsefulInfo from './UsefulInfo.jsx';
+import Services from './Services.jsx';
+import OnlineCredit from './OnlineCredit.jsx';
+import Subscription from './Subscription.jsx';
 
 
 import { 
@@ -518,7 +528,7 @@ const NAV_MENUS = {
     href: "#tariffs",
     items: [
       { label: "Բջջային կապ", href: "/sakagner/bjjayin-kap" },
-      {  label: "Ինտերնետ և TV - ԿՈՄՊ", href: "/sakagner/tvkomp" },,
+      {  label: "Ինտերնետ և TV - ԿՈՄՊ", href: "/sakagner/tvkomp" },
       { label: "Ինտերնետ և TV - ԿՈՄԲ", href: "/sakagner/internet-tv-komb" },
       { label: "Ֆիքսված հեռախոսակապ", href: "/sakagner/fixed-phone" },
     ],
@@ -527,41 +537,41 @@ const NAV_MENUS = {
     label: "Ինտերնետ",
     href: "#internet",
     items: [
-      { label: "Սմարթֆոնի համար", href: "#smartphone" },
-      { label: "Տան համար - ԿՈՄՊ", href: "#home-comp" },
-      { label: "Տան համար - ԿՈՄԲ", href: "#home-comb" },
-      { label: "Համակարգչի/պլանշետի համար", href: "#pc-tablet" },
-      { label: "Team 5G", href: "#team-5g" },
+      { label: "Սմարթֆոնի համար", href: "/internet/smartphone" },
+      { label: "Տան համար - ԿՈՄՊ", href: "/sakagner/tvkomp" },
+      { label: "Տան համար - ԿՈՄԲ", href: "/sakagner/internet-tv-komb" },
+      { label: "Համակարգչի/պլանշետի համար", href: "/internet/pc-tablet" }, 
+      { label: "Team 5G", href: "/internet/team-5g" },
     ],
   },
   services: {
-    label: "Ծառայություններ",
-    href: "#services",
-    items: [
-      { label: "TeamTV", href: "/teamtv" },
-      { label: "Վճարում և համալրում", href: "#payment" },
-      { label: "Զվարճանք", href: "#entertainment" },
-      { label: "Ցանցեր և անվտանգություն", href: "/anvtangutyun" },
-      { label: "Ֆիքսված հեռախոսակապ", href: "#fixed-phone" },
-    ],
-  },
+  label: "Ծառայություններ",
+  href: "#services",
+  items: [
+    { label: "TeamTV", href: "/teamtv" },
+    { label: "Վճարում և համալրում", href: "/teampay" },
+    { label: "Զվարճանք", href: "/services/entertainment" },
+    { label: "Ցանցեր և անվտանգություն", href: "/anvtangutyun" },
+    { label: "Ֆիքսված հեռախոսակապ", href: "/sakagner/fixed-phone" },
+  ],
+},
   roaming: {
-    label: "Ռոումինգ",
-    href: "#roaming",
-    items: [
-      { label: "Ռուումինգ", href: "#roaming-info" },
-      { label: "Միջազգային կապ", href: "#international" },
-      { label: "Օգտակար տեղեկատվություն", href: "#useful-info" },
-      { label: "Ծառայություններ", href: "#roaming-services" },
-    ],
+  label: "Ռոումինգ",
+  href: "/roaming",
+  items: [
+    { label: "Ռոումինգ", href: "/roaming" }, /* Было: href: "#roaming-info" */
+    { label: "Միջազգային կապ", href: "/international" },
+    { label: "Օգտակար տեղեկատվություն", href: "/useful-info" },
+    { label: "Ծառայություններ", href: "/services" },
+  ],
   },
   onlineShop: {
     label: "Առցանց խանութ",
     href: "#online-shop",
     items: [
       { label: "E-shop", href: "/eshop" },
-      { label: "Առցանց ապառիկ", href: "#installment" },
-      { label: "Բաժանորդագրություն", href: "#subscription" },
+      { label: "Առցանց ապառիկ", href: "/installment" },
+      { label: "Բաժանորդագրություն", href: "/subscription" },
     ],
   },
   offers: {
@@ -764,6 +774,16 @@ function App() {
         <Route path="/sakagner/tvkomp" element={<TvKomp />} />
         <Route path="/help" element={<HelpPage />} />
         <Route path="/shake" element={<Shake />} />
+        <Route path="/internet/smartphone" element={<InternetSmartphone />} />
+        <Route path="/internet/pc-tablet" element={<PcTabletInternet />} />
+        <Route path="/internet/team-5g" element={<Team5G />} />
+        <Route path="/services/entertainment" element={<Zvarchanq />} />
+        <Route path="/roaming" element={<Roaming />} />
+        <Route path="/international" element={<InternationalCalls />} />
+        <Route path="/useful-info" element={<UsefulInfo />} />
+        <Route path="/services" element={<Services />} />
+        <Route path="/installment" element={<OnlineCredit />} />
+        <Route path="/subscription" element={<Subscription />} />
       </Routes>
 
       <footer className="footer-main">

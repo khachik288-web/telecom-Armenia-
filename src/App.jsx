@@ -48,6 +48,11 @@ import UsefulInfo from './UsefulInfo.jsx';
 import Services from './Services.jsx';
 import OnlineCredit from './OnlineCredit.jsx';
 import Subscription from './Subscription.jsx';
+import TeamBonus from './TeamBonus.jsx';
+import Promotions from './Promotions.jsx';
+import MobiBattle from './MobiBattle.jsx';
+import GeforceGames from './GeforceGames.jsx';
+import Koreez from './Koreez.jsx';
 
 
 import { 
@@ -373,45 +378,89 @@ function BusinessPage() {
 function HomePage() {
   return (
     <>        
-      <div className='slider-img-size'>
-        <Carousel fade> 
-          <Carousel.Item>
-            <div className="w-full h-full bg-[#c8e8f0] flex items-center justify-between px-20">
-              <div className="flex flex-col max-w-lg h-[700px]">
-                <h2 className="text-4xl font-bold text-[#00293c] leading-tight mt-[200px]">
-                  Samsung Galaxy Z Fold8 Ultra | Fold8 | Flip8
-                </h2>
-                <p className="text-slate-500 text-lg mt-4">Նախավաճառք</p>
-                <button className="btn-red-rounded w-fit mt-6">Ավելին</button>
-              </div>
+      <div className="w-full overflow-hidden">
+  <Carousel fade className="w-full"> 
 
-              <div className="bg-white rounded-3xl p-8 shadow-lg">
-                <img
-                  src="https://www.telecomarmenia.am/images/advanced_slider/2/17857419207587.png"
-                  alt="Samsung Galaxy Z Fold8 Ultra | Fold8 | Flip8"
-                  className="max-h-[380px] object-contain"
-                />
-              </div>
-            </div>
-          </Carousel.Item>
+    {/* SLIDE 1: Samsung */}
+    <Carousel.Item>
+      <div className="w-full min-h-[500px] lg:min-h-[600px] bg-[#c8e8f0] flex flex-col md:flex-row items-center justify-between px-8 md:px-20 py-12 group">
+        <div className="flex flex-col max-w-lg mb-8 md:mb-0 text-left">
+          <h2 className="text-3xl md:text-5xl font-black text-[#00293c] leading-tight">
+            Samsung Galaxy Z Fold8 Ultra | Fold8 | Flip8
+          </h2>
+          <p className="text-slate-600 text-base md:text-lg mt-4 font-medium">
+            Նախավաճառք
+          </p>
+          <button className="bg-[#f1534f] text-white font-bold px-8 py-3 rounded-full w-fit mt-6 hover:bg-[#d9433f] transition-all duration-300 shadow-md hover:shadow-red-500/30 active:scale-95">
+            Ավելին
+          </button>
+        </div>
 
-          <Carousel.Item>
-            <img
-              className="d-block w-100 slider-img"
-              src="https://www.telecomarmenia.am/images/advanced_slider/2/17784978911155.jpeg"
-              alt="Second slide"
-            />
-          </Carousel.Item>
-
-          <Carousel.Item>
-            <img
-              className="d-block w-100 slider-img"
-              src="https://www.telecomarmenia.am/images/advanced_slider/2/17788264270257.jpeg"
-              alt="Third slide"
-            />
-          </Carousel.Item>
-        </Carousel>
+        <div className="bg-white rounded-3xl p-6 md:p-8 shadow-xl transition-all duration-500 group-hover:scale-105 group-hover:shadow-2xl">
+          <img
+            src="https://www.telecomarmenia.am/images/advanced_slider/2/17857419207587.png"
+            alt="Samsung Galaxy Z Fold8"
+            className="max-h-[280px] md:max-h-[380px] w-auto object-contain mx-auto"
+          />
+        </div>
       </div>
+    </Carousel.Item>
+
+    {/* SLIDE 2: Honor Magic 8 Lite (Темный фон) */}
+    <Carousel.Item>
+      <div className="w-full min-h-[500px] lg:min-h-[600px] bg-[#001d2d] text-white flex flex-col md:flex-row items-center justify-between px-8 md:px-20 py-12 group">
+        <div className="flex flex-col max-w-xl mb-8 md:mb-0 text-left">
+          <h2 className="text-3xl md:text-5xl font-black text-white leading-tight mb-3 tracking-tight">
+            Honor Magic 8 Lite
+          </h2>
+          <p className="text-xl md:text-2xl font-bold text-slate-100 mb-4">
+            Կոտրի՛ր սառույցը, ստացի՛ր ավելին
+          </p>
+          <p className="text-xs md:text-sm text-slate-300 mb-8 leading-relaxed max-w-lg font-light">
+            Գնի՛ր Honor Magic 8 Lite սմարթֆոնը` ամսական սկսած ընդամենը 2 850 դրամից և ստացի՛ր քո 3-ը 1-ում տուփը:
+          </p>
+          <button className="bg-white text-[#f1534f] font-bold px-9 py-3 rounded-full w-fit hover:bg-[#f1534f] hover:text-white transition-all duration-300 shadow-lg hover:shadow-red-500/20 active:scale-95">
+            Ավելին
+          </button>
+        </div>
+
+        <div className="relative flex items-center justify-center">
+          <img
+            src="https://www.telecomarmenia.am/images/advanced_slider/2/17867093088692.jpeg"
+            alt="Honor Magic 8 Lite"
+            className="max-h-[320px] md:max-h-[440px] w-auto object-contain transition-transform duration-500 group-hover:scale-105 filter drop-shadow-2xl"
+          />
+        </div>
+      </div>
+    </Carousel.Item>
+
+    {/* SLIDE 3: TCL QLED TV (Светло-кремовый фон) */}
+    <Carousel.Item>
+      <div className="w-full min-h-[500px] lg:min-h-[600px] bg-[#f4f0ea] text-[#00293c] flex flex-col md:flex-row items-center justify-between px-8 md:px-20 py-12 group">
+        <div className="flex flex-col max-w-lg mb-8 md:mb-0 text-left">
+          <h2 className="text-3xl md:text-5xl font-black text-[#00293c] leading-tight mb-4">
+            Զգա արագությունը` <br /> մեծ էկրանով
+          </h2>
+          <p className="text-lg md:text-xl font-semibold text-slate-600 mb-8">
+            TCL QLED 55" սմարթ TV
+          </p>
+          <button className="bg-[#f1534f] text-white font-bold px-9 py-3 rounded-full w-fit hover:bg-[#d9433f] transition-all duration-300 shadow-md hover:shadow-red-500/30 active:scale-95">
+            Ավելին
+          </button>
+        </div>
+
+        <div className="relative flex items-center justify-center">
+          <img
+            src="https://www.telecomarmenia.am/images/advanced_slider/2/17760603211125.png"
+            alt="TCL QLED 55 TV"
+            className="max-h-[300px] md:max-h-[420px] w-auto object-contain transition-transform duration-500 group-hover:scale-105 filter drop-shadow-xl"
+          />
+        </div>
+      </div>
+    </Carousel.Item>
+
+  </Carousel>
+</div>
 
       <Container className="my-5">
         <Row xs={1} md={2} className="g-4">
@@ -579,12 +628,11 @@ const NAV_MENUS = {
   href: "#offers",
   items: [
     { label: "Շեյքի՛ր եւ Շահի՛ր", href: "/shake" },
-    { label: "Ընտրի՛ր և Շահի՛ր", href: "#win" },
-    { label: "Team Բոնուս", href: "#bonus" },
-    { label: "Ակցիաներ", href: "#promotions" },
-    { label: "MobiBattle", href: "#mobibattle" },
-    { label: "GeForce Games", href: "#geforce" },
-    { label: "Koreez", href: "#koreez" },
+    { label: "Team Բոնուս", href: "/team-bonus" },
+    { label: "Ակցիաներ", href: "/promotions" },
+    { label: "MobiBattle", href: "/mobibattle" },
+    { label: "GeForce Games", href: "/geforce-games" },
+    { label: "Koreez", href: "/koreez" },
   ],
  },
 help: {
@@ -784,6 +832,11 @@ function App() {
         <Route path="/services" element={<Services />} />
         <Route path="/installment" element={<OnlineCredit />} />
         <Route path="/subscription" element={<Subscription />} />
+        <Route path="/team-bonus" element={<TeamBonus />} />
+        <Route path="/promotions" element={<Promotions />} />
+        <Route path="/mobibattle" element={<MobiBattle />} />
+        <Route path="/geforce-games" element={<GeforceGames />} />
+        <Route path="/koreez" element={<Koreez />} />
       </Routes>
 
       <footer className="footer-main">

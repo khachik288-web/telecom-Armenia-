@@ -53,6 +53,7 @@ import Promotions from './Promotions.jsx';
 import MobiBattle from './MobiBattle.jsx';
 import GeforceGames from './GeforceGames.jsx';
 import Koreez from './Koreez.jsx';
+import TeamHavelvacner from './teamHavelvacner.jsx';
 
 
 import { 
@@ -469,7 +470,7 @@ function HomePage() {
               <Card.Body className="d-flex flex-column justify-content-between">
                 <Card.Title className="service-card-title">ԲՋՋԱՅԻՆ ԿԱՊ</Card.Title>
                 <div className="d-flex justify-content-between align-items-end mt-4">
-                  <a href="#more" className="service-card-link">Ավելին <FaChevronRight size={12} color="#ff4500" /></a>
+                  <a href="/sakagner/bjjayin-kap" className="service-card-link">Ավելին <FaChevronRight size={12} color="#ff4500" /></a>
                   <FaMobileAlt size={50} color="#00d2ff" style={{ opacity: 0.8 }} />
                 </div>
               </Card.Body>
@@ -481,7 +482,7 @@ function HomePage() {
               <Card.Body className="d-flex flex-column justify-content-between">
                 <Card.Title className="service-card-title">ՖԻՔՍՎԱԾ ԿԱՊ</Card.Title>
                 <div className="d-flex justify-content-between align-items-end mt-4">
-                  <a href="#more" className="service-card-link">Ավելին <FaChevronRight size={12} color="#ff4500" /></a>
+                  <a href="/sakagner/fixed-phone" className="service-card-link">Ավելին <FaChevronRight size={12} color="#ff4500" /></a>
                   <FaPhoneAlt size={45} color="#00d2ff" style={{ opacity: 0.8 }} />
                 </div>
               </Card.Body>
@@ -493,7 +494,7 @@ function HomePage() {
               <Card.Body className="d-flex flex-column justify-content-between">
                 <Card.Title className="service-card-title">ՀԱՎԵԼՎԱԾՆԵՐ</Card.Title>
                 <div className="d-flex justify-content-between align-items-end mt-4">
-                  <a href="#more" className="service-card-link">Ավելին <FaChevronRight size={12} color="#ff4500" /></a>
+                  <a href="/teamhavelvacner" className="service-card-link">Ավելին <FaChevronRight size={12} color="#ff4500" /></a>
                   <FaThLarge size={45} color="#00d2ff" style={{ opacity: 0.8 }} />
                 </div>
               </Card.Body>
@@ -505,7 +506,7 @@ function HomePage() {
               <Card.Body className="d-flex flex-column justify-content-between">
                 <Card.Title className="service-card-title">ԻՆՏԵՐՆԵՏ ԵՎ TV</Card.Title>
                 <div className="d-flex justify-content-between align-items-end mt-4">
-                  <a href="#more" className="service-card-link">Ավելին <FaChevronRight size={12} color="#ff4500" /></a>
+                  <a href="/sakagner/tvkomp" className="service-card-link">Ավելին <FaChevronRight size={12} color="#ff4500" /></a>
                   <FaTv size={45} color="#00d2ff" style={{ opacity: 0.8 }} />
                 </div>
               </Card.Body>
@@ -608,7 +609,7 @@ const NAV_MENUS = {
   label: "Ռոումինգ",
   href: "/roaming",
   items: [
-    { label: "Ռոումինգ", href: "/roaming" }, /* Было: href: "#roaming-info" */
+    { label: "Ռոումինգ", href: "/roaming" }, 
     { label: "Միջազգային կապ", href: "/international" },
     { label: "Օգտակար տեղեկատվություն", href: "/useful-info" },
     { label: "Ծառայություններ", href: "/services" },
@@ -837,6 +838,7 @@ function App() {
         <Route path="/mobibattle" element={<MobiBattle />} />
         <Route path="/geforce-games" element={<GeforceGames />} />
         <Route path="/koreez" element={<Koreez />} />
+        <Route path="/teamhavelvacner" element={<TeamHavelvacner />} />
       </Routes>
 
       <footer className="footer-main">

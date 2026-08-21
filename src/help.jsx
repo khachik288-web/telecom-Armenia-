@@ -237,11 +237,334 @@ export default function HelpPage() {
           </div>
         )}
 
-        {/* ================= TAB 4: USSD (PLACEHOLDER) ================= */}
+        {/* ================= TAB 4: USSD ================= */}
         {activeTab === 'ussd' && (
-          <div className="py-12 text-center">
-            <h1 className="text-3xl font-bold text-[#00293c] mb-4">USSD հրահանգներ և օգտակար համարներ</h1>
-            <p className="text-slate-500">Այս բաժինը շուտով կհամալրվի ամբողջական տվյալներով:</p>
+          <div className="space-y-10">
+            <h1 className="text-3xl font-bold text-[#00293c] mb-6">
+              USSD հրահանգներ և օգտակար համարներ
+            </h1>
+
+            {/* 1. TEAM FREE HELPLINES */}
+            <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden p-6">
+              <h2 className="text-xl font-bold text-[#00293c] mb-4">
+                Team անվճար տեղեկատու հեռախոսահամարներ
+              </h2>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm text-left text-slate-700 border-collapse">
+                  <tbody className="divide-y divide-slate-100">
+                    <tr className="hover:bg-slate-50">
+                      <td className="py-3 px-4">
+                        Բաժանորդների սպասարկման կենտրոն («Team» բջջային հեռախոսահամարից)
+                      </td>
+                      <td className="py-3 px-4 font-semibold text-[#00293c] text-right">
+                        100
+                      </td>
+                    </tr>
+                    <tr className="hover:bg-slate-50">
+                      <td className="py-3 px-4">
+                        Բաժանորդների սպասարկման կենտրոն (ֆիքսված հեռախոսակապից)
+                      </td>
+                      <td className="py-3 px-4 font-semibold text-[#00293c] text-right">
+                        100 / 080000611
+                      </td>
+                    </tr>
+                    <tr className="hover:bg-slate-50">
+                      <td className="py-3 px-4">
+                        Բաժանորդների սպասարկման կենտրոն (ԱՊՀ երկրներից և այլ պետություններից զանգերի դեպքում,միայն ՀՀ «Team» բջջային ցանցի բաժանորդների համար)
+                      </td>
+                      <td className="py-3 px-4 font-semibold text-[#00293c] text-right">
+                        +37480000612
+                      </td>
+                    </tr>
+                    <tr className="hover:bg-slate-50">
+                      <td className="py-3 px-4">
+                        Բաժանորդների սպասարկման կենտրոն արտերկրից զանգեր կատարելու համար: Ուշադրություն. զանգը վճարովի է
+                      </td>
+                      <td className="py-3 px-4 font-semibold text-[#00293c] text-right">
+                        +37480000611
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* 2. BALANCE RECHARGE & CHECK */}
+            <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden p-6">
+              <h2 className="text-xl font-bold text-[#00293c] mb-4">
+                Հաշվի վերալիցքավորում և հաշվեկշռի ստուգում
+              </h2>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm text-left text-slate-700 border-collapse">
+                  <tbody className="divide-y divide-slate-100">
+                    <tr className="hover:bg-slate-50">
+                      <td className="py-3 px-4">
+                        Հաշվեկշռի ստուգում կանխավճարային համակարգի բաժանորդներին
+                      </td>
+                      <td className="py-3 px-4 font-semibold text-[#00293c] text-right">
+                        *102#
+                      </td>
+                    </tr>
+                    <tr className="hover:bg-slate-50">
+                      <td className="py-3 px-4">
+                        Team այլ բաժանորդի հաշվի վերալիցքավորում ֆիքսված հեռախոսահամարից
+                      </td>
+                      <td className="py-3 px-4 font-semibold text-[#00293c] text-right">
+                        080000696
+                      </td>
+                    </tr>
+                    <tr className="hover:bg-slate-50">
+                      <td className="py-3 px-4">
+                        Տեղեկատվություն հարցման պահին միացված ծառայությունների մասին
+                      </td>
+                      <td className="py-3 px-4 font-semibold text-[#00293c] text-right">
+                        *110*09#
+                      </td>
+                    </tr>
+                    <tr className="hover:bg-slate-50">
+                      <td className="py-3 px-4">
+                        Տեղեկատվություն ընթացիկ սակագնային փաթեթի մասին
+                      </td>
+                      <td className="py-3 px-4 font-semibold text-[#00293c] text-right">
+                        *110*05#
+                      </td>
+                    </tr>
+                    <tr className="hover:bg-slate-50">
+                      <td className="py-3 px-4">
+                        Giga փաթեթների հաշվեկշռի ստուգում
+                      </td>
+                      <td className="py-3 px-4 font-semibold text-[#00293c] text-right">
+                        *203#
+                      </td>
+                    </tr>
+                    <tr className="hover:bg-slate-50">
+                      <td className="py-3 px-4">
+                        Mega փաթեթների հաշվեկշռի ստուգում
+                      </td>
+                      <td className="py-3 px-4 font-semibold text-[#00293c] text-right">
+                        *215#
+                      </td>
+                    </tr>
+                    <tr className="hover:bg-slate-50">
+                      <td className="py-3 px-4">
+                        3GB փաթեթի հաշվեկշռի ստուգում
+                      </td>
+                      <td className="py-3 px-4 font-semibold text-[#00293c] text-right">
+                        *217#
+                      </td>
+                    </tr>
+                    <tr className="hover:bg-slate-50">
+                      <td className="py-3 px-4">
+                        Հեռախոսահամարի ստուգում
+                      </td>
+                      <td className="py-3 px-4 font-semibold text-[#00293c] text-right">
+                        *525#
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* 3. PREPAID USSD COMMANDS */}
+            <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden p-6">
+              <h2 className="text-xl font-bold text-[#00293c] mb-6">
+                USSD հրահանգներ կանխավճարային բաժանորդների համար
+              </h2>
+
+              <h3 className="text-base font-bold text-[#00293c] mb-3">Փաթեթներ</h3>
+              <div className="overflow-x-auto mb-8">
+                <table className="w-full text-sm text-left text-slate-700 border border-slate-100">
+                  <thead className="bg-slate-50 text-slate-800 font-semibold border-b border-slate-200">
+                    <tr>
+                      <th className="py-3 px-4">Անվանում</th>
+                      <th className="py-3 px-4">Արժեք (դրամ)</th>
+                      <th className="py-3 px-4 text-right">USSD ակտիվացման հրահանգ</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100">
+                    <tr className="hover:bg-slate-50">
+                      <td className="py-2.5 px-4">Be Free 2500</td>
+                      <td className="py-2.5 px-4">2500</td>
+                      <td className="py-2.5 px-4 text-right font-semibold text-[#00293c]">*710#</td>
+                    </tr>
+                    <tr className="hover:bg-slate-50">
+                      <td className="py-2.5 px-4">Be Free 3200</td>
+                      <td className="py-2.5 px-4">3200</td>
+                      <td className="py-2.5 px-4 text-right font-semibold text-[#00293c]">*702#</td>
+                    </tr>
+                    <tr className="hover:bg-slate-50">
+                      <td className="py-2.5 px-4">Be Free 3500</td>
+                      <td className="py-2.5 px-4">3500</td>
+                      <td className="py-2.5 px-4 text-right font-semibold text-[#00293c]">*708#</td>
+                    </tr>
+                    <tr className="hover:bg-slate-50">
+                      <td className="py-2.5 px-4">Be Free 5000</td>
+                      <td className="py-2.5 px-4">5000</td>
+                      <td className="py-2.5 px-4 text-right font-semibold text-[#00293c]">*703#</td>
+                    </tr>
+                    <tr className="hover:bg-slate-50">
+                      <td className="py-2.5 px-4">Be Free Premium</td>
+                      <td className="py-2.5 px-4">8000</td>
+                      <td className="py-2.5 px-4 text-right font-semibold text-[#00293c]">*709#</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <h3 className="text-base font-bold text-[#00293c] mb-3">Ինտերնետ</h3>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm text-left text-slate-700 border border-slate-100">
+                  <thead className="bg-slate-50 text-slate-800 font-semibold border-b border-slate-200">
+                    <tr>
+                      <th className="py-3 px-4">Անվանում</th>
+                      <th className="py-3 px-4">Արժեք (դրամ)</th>
+                      <th className="py-3 px-4 text-right">USSD ակտիվացման հրահանգ</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100">
+                    <tr className="hover:bg-slate-50">
+                      <td className="py-2.5 px-4">Giga 15</td>
+                      <td className="py-2.5 px-4">5000</td>
+                      <td className="py-2.5 px-4 text-right font-semibold text-[#00293c]">*1115#</td>
+                    </tr>
+                    <tr className="hover:bg-slate-50">
+                      <td className="py-2.5 px-4">Giga 10</td>
+                      <td className="py-2.5 px-4">3500</td>
+                      <td className="py-2.5 px-4 text-right font-semibold text-[#00293c]">*1110#</td>
+                    </tr>
+                    <tr className="hover:bg-slate-50">
+                      <td className="py-2.5 px-4">Giga 5</td>
+                      <td className="py-2.5 px-4">2000</td>
+                      <td className="py-2.5 px-4 text-right font-semibold text-[#00293c]">*1105#</td>
+                    </tr>
+                    <tr className="hover:bg-slate-50">
+                      <td className="py-2.5 px-4">Giga 2</td>
+                      <td className="py-2.5 px-4">1000</td>
+                      <td className="py-2.5 px-4 text-right font-semibold text-[#00293c]">*1102#</td>
+                    </tr>
+                    <tr className="hover:bg-slate-50">
+                      <td className="py-2.5 px-4">Giga 1</td>
+                      <td className="py-2.5 px-4">700</td>
+                      <td className="py-2.5 px-4 text-right font-semibold text-[#00293c]">*1101#</td>
+                    </tr>
+                    <tr className="hover:bg-slate-50">
+                      <td className="py-2.5 px-4">Mega 500</td>
+                      <td className="py-2.5 px-4">150</td>
+                      <td className="py-2.5 px-4 text-right font-semibold text-[#00293c]">*1500#</td>
+                    </tr>
+                    <tr className="hover:bg-slate-50">
+                      <td className="py-2.5 px-4">Mega 300</td>
+                      <td className="py-2.5 px-4">100</td>
+                      <td className="py-2.5 px-4 text-right font-semibold text-[#00293c]">*1150#</td>
+                    </tr>
+                    <tr className="hover:bg-slate-50">
+                      <td className="py-2.5 px-4">3 GB</td>
+                      <td className="py-2.5 px-4">500</td>
+                      <td className="py-2.5 px-4 text-right font-semibold text-[#00293c]">*4100#</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* 4. POSTPAID USSD COMMANDS */}
+            <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden p-6">
+              <h2 className="text-xl font-bold text-[#00293c] mb-6">
+                USSD հրահանգներ հետվճարային բաժանորդների համար
+              </h2>
+
+              <h3 className="text-base font-bold text-[#00293c] mb-3">Ինտերնետ</h3>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm text-left text-slate-700 border border-slate-100">
+                  <thead className="bg-slate-50 text-slate-800 font-semibold border-b border-slate-200">
+                    <tr>
+                      <th className="py-3 px-4">Անվանում</th>
+                      <th className="py-3 px-4">Արժեք (դրամ)</th>
+                      <th className="py-3 px-4 text-right">USSD ակտիվացման հրահանգ</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100">
+                    <tr className="hover:bg-slate-50">
+                      <td className="py-2.5 px-4">Giga 15</td>
+                      <td className="py-2.5 px-4">5000</td>
+                      <td className="py-2.5 px-4 text-right font-semibold text-[#00293c]">*1115#</td>
+                    </tr>
+                    <tr className="hover:bg-slate-50">
+                      <td className="py-2.5 px-4">Giga 10</td>
+                      <td className="py-2.5 px-4">3500</td>
+                      <td className="py-2.5 px-4 text-right font-semibold text-[#00293c]">*1110#</td>
+                    </tr>
+                    <tr className="hover:bg-slate-50">
+                      <td className="py-2.5 px-4">Giga 5</td>
+                      <td className="py-2.5 px-4">2000</td>
+                      <td className="py-2.5 px-4 text-right font-semibold text-[#00293c]">*1105#</td>
+                    </tr>
+                    <tr className="hover:bg-slate-50">
+                      <td className="py-2.5 px-4">Giga 2</td>
+                      <td className="py-2.5 px-4">1000</td>
+                      <td className="py-2.5 px-4 text-right font-semibold text-[#00293c]">*1102#</td>
+                    </tr>
+                    <tr className="hover:bg-slate-50">
+                      <td className="py-2.5 px-4">3 GB</td>
+                      <td className="py-2.5 px-4">500</td>
+                      <td className="py-2.5 px-4 text-right font-semibold text-[#00293c]">*4100#</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* 5. EMERGENCY NUMBERS */}
+            <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden p-6">
+              <h2 className="text-xl font-bold text-[#00293c] mb-4">
+                Արագ արձագանքման համարներ (անվճար)
+              </h2>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm text-left text-slate-700 border-collapse">
+                  <tbody className="divide-y divide-slate-100">
+                    <tr className="hover:bg-slate-50">
+                      <td className="py-3 px-4">Հրշեջ ծառայություն</td>
+                      <td className="py-3 px-4 font-semibold text-[#00293c] text-right">
+                        101
+                      </td>
+                    </tr>
+                    <tr className="hover:bg-slate-50">
+                      <td className="py-3 px-4">Ոստիկանություն</td>
+                      <td className="py-3 px-4 font-semibold text-[#00293c] text-right">
+                        102
+                      </td>
+                    </tr>
+                    <tr className="hover:bg-slate-50">
+                      <td className="py-3 px-4">Շտապ օգնություն</td>
+                      <td className="py-3 px-4 font-semibold text-[#00293c] text-right">
+                        103
+                      </td>
+                    </tr>
+                    <tr className="hover:bg-slate-50">
+                      <td className="py-3 px-4">Գազի վթարային ծառայություն</td>
+                      <td className="py-3 px-4 font-semibold text-[#00293c] text-right">
+                        104
+                      </td>
+                    </tr>
+                    <tr className="hover:bg-slate-50">
+                      <td className="py-3 px-4">Փրկարար ծառայություն</td>
+                      <td className="py-3 px-4 font-semibold text-[#00293c] text-right">
+                        112
+                      </td>
+                    </tr>
+                    <tr className="hover:bg-slate-50">
+                      <td className="py-3 px-4">
+                        Արտակարգ իրավիճակներում օգնության ծառայություն
+                      </td>
+                      <td className="py-3 px-4 font-semibold text-[#00293c] text-right">
+                        911 / 112
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
         )}
       </Container>

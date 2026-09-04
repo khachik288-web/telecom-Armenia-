@@ -19,6 +19,7 @@ export default function ChatWidget() {
   const [users, setUsers] = useState([]);
   const [messages, setMessages] = useState([]);
   const [text, setText] = useState("");
+  const [unreadChats, setUnreadChats] = useState({});
   const bottomRef = useRef(null);
   const navigate = useNavigate();
 
@@ -36,12 +37,52 @@ export default function ChatWidget() {
   const myUid = auth.currentUser?.uid;
   const myName = auth.currentUser?.displayName || auth.currentUser?.email?.split("@")[0] || "User";
 
+  const activeChatId = activeChat
+    ? activeChat.isGroup
+      ? "public_group"
+      : getChatId(myUid, activeChat.id)
+    : null;
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setIsLoggedIn(!!user);
     });
     return () => unsubscribe();
   }, []);
+
+  // Отслеживание непрочитанных сообщений во всех чатах
+  useEffect(() => {
+    if (!myUid) return;
+
+    const chatsRef = ref(db, "chats");
+    const unsubscribe = onValue(chatsRef, (snapshot) => {
+      const data = snapshot.val() || {};
+      const newUnreads = {};
+
+      Object.entries(data).forEach(([chatId, chatData]) => {
+        if (!chatData.messages) return;
+        const msgList = Object.values(chatData.messages);
+        if (msgList.length === 0) return;
+
+        const lastMsg = msgList.reduce(
+          (acc, curr) => (curr.timestamp > acc.timestamp ? curr : acc),
+          msgList[0]
+        );
+
+        // Если последнее сообщение не мое и чат не активен в данный момент
+        if (lastMsg.from !== myUid) {
+          const isCurrentlyReading = isOpen && view === "chat" && activeChatId === chatId;
+          if (!isCurrentlyReading) {
+            newUnreads[chatId] = true;
+          }
+        }
+      });
+
+      setUnreadChats(newUnreads);
+    });
+
+    return () => unsubscribe();
+  }, [myUid, isOpen, view, activeChatId]);
 
   useEffect(() => {
     if (!isOpen || view !== "list") return;
@@ -89,6 +130,17 @@ export default function ChatWidget() {
     }
   };
 
+  const handleOpenGroupChat = () => {
+    setUnreadChats((prev) => ({ ...prev, public_group: false }));
+    openGroupChat();
+  };
+
+  const handleOpenPrivateChat = (user) => {
+    const chatId = getChatId(myUid, user.uid);
+    setUnreadChats((prev) => ({ ...prev, [chatId]: false }));
+    openPrivateChat(user);
+  };
+
   const handleSend = async () => {
     if (!text.trim() || !activeChat || !myUid) return;
 
@@ -111,14 +163,19 @@ export default function ChatWidget() {
       : getChatId(myUid, activeChat.id)
     : "default";
 
+  const hasAnyUnread = Object.values(unreadChats).some(Boolean);
+
   return (
     <div className="fixed bottom-6 right-6 z-[2000]">
       {!isOpen && (
         <button
           onClick={handleWidgetClick}
-          className="w-14 h-14 rounded-full bg-[#e8615a] hover:bg-[#dd534c] text-white flex items-center justify-center shadow-lg transition-colors"
+          className="relative w-14 h-14 rounded-full bg-[#e8615a] hover:bg-[#dd534c] text-white flex items-center justify-center shadow-lg transition-colors"
         >
           <MessageCircle size={26} />
+          {hasAnyUnread && (
+            <span className="absolute top-1 right-1 w-3.5 h-3.5 bg-blue-500 border-2 border-white rounded-full"></span>
+          )}
         </button>
       )}
 
@@ -168,37 +225,47 @@ export default function ChatWidget() {
           {view === "list" && (
             <div className="flex-1 overflow-y-auto">
               <button
-                onClick={openGroupChat}
-                className="w-full flex items-center gap-3 px-4 py-3 hover:bg-slate-50 text-left border-b border-slate-100 bg-slate-50/50"
+                onClick={handleOpenGroupChat}
+                className="w-full flex items-center gap-3 px-4 py-3 hover:bg-slate-50 text-left border-b border-slate-100 bg-slate-50/50 relative"
               >
                 <div className="w-10 h-10 rounded-full bg-[#e8615a] text-white flex items-center justify-center shrink-0">
                   <Users size={20} />
                 </div>
-                <div className="min-w-0">
+                <div className="min-w-0 flex-1">
                   <p className="text-sm font-semibold text-slate-800">Ընդհանուր Խումբ</p>
                   <p className="text-xs text-slate-400">Գրեք բոլորին</p>
                 </div>
+                {unreadChats["public_group"] && (
+                  <span className="w-2.5 h-2.5 bg-blue-500 rounded-full shrink-0 ml-auto" />
+                )}
               </button>
 
-              {users.map((user) => (
-                <button
-                  key={user.uid}
-                  onClick={() => openPrivateChat(user)}
-                  className="w-full flex items-center gap-3 px-4 py-3 hover:bg-slate-50 text-left border-b border-slate-50"
-                >
-                  <img
-                    src={user.photoURL || DEFAULT_AVATAR}
-                    alt={user.name}
-                    className="w-10 h-10 rounded-full object-cover shrink-0"
-                  />
-                  <div className="min-w-0">
-                    <p className="text-sm font-medium text-slate-800 truncate">
-                      {user.name || "Անանուն"}
-                    </p>
-                    <p className="text-xs text-slate-400 truncate">{user.email}</p>
-                  </div>
-                </button>
-              ))}
+              {users.map((user) => {
+                const chatId = getChatId(myUid, user.uid);
+                const isUnread = unreadChats[chatId];
+                return (
+                  <button
+                    key={user.uid}
+                    onClick={() => handleOpenPrivateChat(user)}
+                    className="w-full flex items-center gap-3 px-4 py-3 hover:bg-slate-50 text-left border-b border-slate-50 relative"
+                  >
+                    <img
+                      src={user.photoURL || DEFAULT_AVATAR}
+                      alt={user.name}
+                      className="w-10 h-10 rounded-full object-cover shrink-0"
+                    />
+                    <div className="min-w-0 flex-1">
+                      <p className="text-sm font-medium text-slate-800 truncate">
+                        {user.name || "Անանուն"}
+                      </p>
+                      <p className="text-xs text-slate-400 truncate">{user.email}</p>
+                    </div>
+                    {isUnread && (
+                      <span className="w-2.5 h-2.5 bg-blue-500 rounded-full shrink-0 ml-auto" />
+                    )}
+                  </button>
+                );
+              })}
             </div>
           )}
 

@@ -5,10 +5,10 @@ import { getAuth, GoogleAuthProvider } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBvddvMoXHy8UQYYZpbovSsmEbKVfIr7ng",
-  authDomain: "team-telecom-arm.firebaseapp.com",
+  authDomain: "team-telecom-arm-79182.firebaseapp.com", 
   databaseURL: "https://team-telecom-arm-default-rtdb.firebaseio.com",
-  projectId: "team-telecom-arm",
-  storageBucket: "team-telecom-arm.firebasestorage.app",
+  projectId: "team-telecom-arm-79182",
+  storageBucket: "team-telecom-arm-79182.firebasestorage.app",
   messagingSenderId: "114441898118",
   appId: "1:114441898118:web:2b7e2ed7da088dc8dbe907",
   measurementId: "G-0RKB66JLWB"

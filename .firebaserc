@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "team-telecom-arm-79182"
-  }
+    "default": "team-telecom-arm-79182",
+    "defeul": "new-team-telecom-67513"
+  },
+  "targets": {},
+  "etags": {}
 }

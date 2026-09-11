@@ -69,7 +69,6 @@ export default function ChatWidget() {
           msgList[0]
         );
 
-        // Если последнее сообщение не мое и чат не активен в данный момент
         if (lastMsg.from !== myUid) {
           const isCurrentlyReading = isOpen && view === "chat" && activeChatId === chatId;
           if (!isCurrentlyReading) {
@@ -180,56 +179,56 @@ export default function ChatWidget() {
       )}
 
       {isOpen && (
-        <div className="w-[360px] h-[520px] bg-white rounded-2xl shadow-2xl border border-slate-200 flex flex-col overflow-hidden">
+        <div className="w-[470px] h-[675px] max-w-[calc(100vw-2rem)] max-h-[calc(100vh-2rem)] bg-white rounded-2xl shadow-2xl border border-slate-200 flex flex-col overflow-hidden">
           {/* Header */}
-          <div className="bg-[#00293c] text-white px-4 py-3 flex items-center gap-2">
+          <div className="bg-[#00293c] text-white px-4 py-3.5 flex items-center gap-2 shrink-0">
             {view !== "list" && (
-              <button onClick={() => setView("list")} className="text-white/80 hover:text-white mr-1">
-                <ArrowLeft size={18} />
+              <button onClick={() => setView("list")} className="text-white/80 hover:text-white mr-1 shrink-0">
+                <ArrowLeft size={20} />
               </button>
             )}
 
             <div className="flex-1 min-w-0">
               {view === "list" ? (
-                <p className="font-medium">Հաղորդագրություններ</p>
+                <p className="font-medium text-base">Հաղորդագրություններ</p>
               ) : (
-                <p className="font-medium truncate">{activeChat?.name}</p>
+                <p className="font-medium text-base truncate">{activeChat?.name}</p>
               )}
             </div>
 
             {view === "chat" && (
-              <div className="flex items-center gap-2 mr-2">
+              <div className="flex items-center gap-2 mr-2 shrink-0">
                 <button
                   onClick={() => startCall("audio")}
                   className="p-1.5 hover:bg-white/10 rounded-full text-white/90 transition-colors"
                   title="Ձայնային զանգ"
                 >
-                  <Phone size={16} />
+                  <Phone size={18} />
                 </button>
                 <button
                   onClick={() => startCall("video")}
                   className="p-1.5 hover:bg-white/10 rounded-full text-white/90 transition-colors"
                   title="Տեսազանգ"
                 >
-                  <Video size={16} />
+                  <Video size={18} />
                 </button>
               </div>
             )}
 
-            <button onClick={() => setIsOpen(false)} className="text-white/80 hover:text-white">
-              <X size={18} />
+            <button onClick={() => setIsOpen(false)} className="text-white/80 hover:text-white shrink-0">
+              <X size={20} />
             </button>
           </div>
 
           {/* View: List */}
           {view === "list" && (
-            <div className="flex-1 overflow-y-auto">
+            <div className="flex-1 min-h-0 overflow-y-auto">
               <button
                 onClick={handleOpenGroupChat}
-                className="w-full flex items-center gap-3 px-4 py-3 hover:bg-slate-50 text-left border-b border-slate-100 bg-slate-50/50 relative"
+                className="w-full flex items-center gap-3 px-4 py-3.5 hover:bg-slate-50 text-left border-b border-slate-100 bg-slate-50/50 relative"
               >
-                <div className="w-10 h-10 rounded-full bg-[#e8615a] text-white flex items-center justify-center shrink-0">
-                  <Users size={20} />
+                <div className="w-11 h-11 rounded-full bg-[#e8615a] text-white flex items-center justify-center shrink-0">
+                  <Users size={22} />
                 </div>
                 <div className="min-w-0 flex-1">
                   <p className="text-sm font-semibold text-slate-800">Ընդհանուր Խումբ</p>
@@ -247,12 +246,12 @@ export default function ChatWidget() {
                   <button
                     key={user.uid}
                     onClick={() => handleOpenPrivateChat(user)}
-                    className="w-full flex items-center gap-3 px-4 py-3 hover:bg-slate-50 text-left border-b border-slate-50 relative"
+                    className="w-full flex items-center gap-3 px-4 py-3.5 hover:bg-slate-50 text-left border-b border-slate-50 relative"
                   >
                     <img
                       src={user.photoURL || DEFAULT_AVATAR}
                       alt={user.name}
-                      className="w-10 h-10 rounded-full object-cover shrink-0"
+                      className="w-11 h-11 rounded-full object-cover shrink-0"
                     />
                     <div className="min-w-0 flex-1">
                       <p className="text-sm font-medium text-slate-800 truncate">
@@ -271,14 +270,14 @@ export default function ChatWidget() {
 
           {/* View: Chat */}
           {view === "chat" && (
-            <>
-              <div className="flex-1 overflow-y-auto p-3 flex flex-col gap-2">
+            <div className="flex-1 min-h-0 flex flex-col overflow-hidden">
+              <div className="flex-1 min-h-0 overflow-y-auto p-4 flex flex-col gap-2.5">
                 {messages.map((msg) => {
                   const isMine = msg.from === myUid;
                   return (
                     <div
                       key={msg.id}
-                      className={`max-w-[80%] px-3 py-2 rounded-2xl text-sm ${
+                      className={`max-w-[80%] px-3.5 py-2 rounded-2xl text-sm ${
                         isMine
                           ? "self-end bg-[#e8615a] text-white rounded-br-sm"
                           : "self-start bg-slate-100 text-slate-800 rounded-bl-sm"
@@ -294,28 +293,30 @@ export default function ChatWidget() {
                 <div ref={bottomRef} />
               </div>
 
-              <div className="flex items-center gap-2 p-3 border-t border-slate-100">
+              <div className="shrink-0 flex items-center gap-2 p-3 border-t border-slate-100 bg-white">
                 <input
                   type="text"
                   value={text}
                   onChange={(e) => setText(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && handleSend()}
                   placeholder="Գրեք հաղորդագրություն..."
-                  className="flex-1 border border-slate-200 rounded-full px-3 py-1.5 outline-none text-sm"
+                  className="flex-1 border border-slate-200 rounded-full px-4 py-2 outline-none text-sm focus:border-[#e8615a] transition-colors"
                 />
                 <button
                   onClick={handleSend}
-                  className="bg-[#e8615a] hover:bg-[#dd534c] text-white rounded-full w-8 h-8 flex items-center justify-center shrink-0"
+                  className="bg-[#e8615a] hover:bg-[#dd534c] text-white rounded-full w-9 h-9 flex items-center justify-center shrink-0 transition-colors"
                 >
-                  <Send size={14} />
+                  <Send size={16} />
                 </button>
               </div>
-            </>
+            </div>
           )}
 
           {/* View: Call */}
           {view === "call" && (
-            <CallContainer roomId={currentRoomId} userId={myUid} userName={myName} />
+            <div className="flex-1 min-h-0 w-full h-full relative overflow-hidden">
+              <CallContainer roomId={currentRoomId} userId={myUid} userName={myName} />
+            </div>
           )}
         </div>
       )}

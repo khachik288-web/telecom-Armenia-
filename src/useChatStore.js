@@ -5,6 +5,8 @@ export const useChatStore = create((set) => ({
   view: 'list', // 'list' | 'chat' | 'call'
   activeChat: null, // { id, name, isGroup }
   callType: null, // 'video' | 'audio'
+  roomId: null,
+  incomingCall: null, // { callerId, callerName, roomId, callType }
 
   setIsOpen: (isOpen) => set({ isOpen }),
   setView: (view) => set({ view }),
@@ -21,6 +23,8 @@ export const useChatStore = create((set) => ({
       activeChat: { id: 'public_group', name: 'Խմբային չատ', isGroup: true },
     }),
 
-  startCall: (type) => set({ view: 'call', callType: type }),
-  endCall: () => set({ view: 'chat', callType: null }),
+  setIncomingCall: (incomingCall) => set({ incomingCall }),
+  
+  startCall: (type, roomId) => set({ view: 'call', callType: type, roomId }),
+  endCall: () => set({ view: 'chat', callType: null, roomId: null, incomingCall: null }),
 }));

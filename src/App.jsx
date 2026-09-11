@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Link, useLocation, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, useLocation, Navigate, useNavigate } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -16,11 +16,10 @@ import TeamTVPage from './teamtv.jsx';
 import Myteam from './myteam.jsx';
 import Reg from './reg.jsx';
 import LogOut from './logout.jsx'; 
-import TeamPay from './teamPay.jsx'
-import TeamEnergy from './teamEnergy.jsx'
+import TeamPay from './teamPay.jsx';
+import TeamEnergy from './teamEnergy.jsx';
 import EshPaymaner from './eshPaymaner.jsx';
 import ChatWidget from './chatWidget.jsx';
-import { useNavigate } from "react-router-dom";
 import AshxTelArm from './ashxTelArm.jsx';
 import Ardyunq from './ardyunq.jsx';
 import Etika from './etika.jsx';
@@ -54,7 +53,8 @@ import MobiBattle from './MobiBattle.jsx';
 import GeforceGames from './GeforceGames.jsx';
 import Koreez from './Koreez.jsx';
 import TeamHavelvacner from './teamHavelvacner.jsx';
-
+import IncomingCallModal from './IncomingCallModal';
+import { useCallListener } from './useCallListener';
 
 import { 
   FaRegUserCircle, FaRegCreditCard, FaShoppingCart, FaBars,
@@ -68,15 +68,12 @@ import AraqmanPaym from './araqmanPaym.jsx';
 import { useState, useEffect } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './firebase';
-import ArdyunqnerHashvetvutyunner from './ardyunq.jsx';
 import Marz from './marz.jsx';
-
 
 // reg guard — не пускает залогиненного юзера обратно на форму входа
 function RegGuard() {
   const [checking, setChecking] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -127,7 +124,6 @@ function RequireAuth({ children }) {
 
   return children;
 }
-
 
 function BusinessPage() {
   return (
@@ -380,88 +376,88 @@ function HomePage() {
   return (
     <>        
       <div className="w-full overflow-hidden">
-  <Carousel fade className="w-full"> 
+        <Carousel fade className="w-full"> 
 
-    {/* SLIDE 1: Samsung */}
-    <Carousel.Item>
-      <div className="w-full min-h-[500px] lg:min-h-[600px] bg-[#c8e8f0] flex flex-col md:flex-row items-center justify-between px-8 md:px-20 py-12 group">
-        <div className="flex flex-col max-w-lg mb-8 md:mb-0 text-left">
-          <h2 className="text-3xl md:text-5xl font-black text-[#00293c] leading-tight">
-            Samsung Galaxy Z Fold8 Ultra | Fold8 | Flip8
-          </h2>
-          <p className="text-slate-600 text-base md:text-lg mt-4 font-medium">
-            Նախավաճառք
-          </p>
-          <button className="bg-[#f1534f] text-white font-bold px-8 py-3 rounded-full w-fit mt-6 hover:bg-[#d9433f] transition-all duration-300 shadow-md hover:shadow-red-500/30 active:scale-95">
-            Ավելին
-          </button>
-        </div>
+          {/* SLIDE 1: Samsung */}
+          <Carousel.Item>
+            <div className="w-full min-h-[500px] lg:min-h-[600px] bg-[#c8e8f0] flex flex-col md:flex-row items-center justify-between px-8 md:px-20 py-12 group">
+              <div className="flex flex-col max-w-lg mb-8 md:mb-0 text-left">
+                <h2 className="text-3xl md:text-5xl font-black text-[#00293c] leading-tight">
+                  Samsung Galaxy Z Fold8 Ultra | Fold8 | Flip8
+                </h2>
+                <p className="text-slate-600 text-base md:text-lg mt-4 font-medium">
+                  Նախավաճառք
+                </p>
+                <button className="bg-[#f1534f] text-white font-bold px-8 py-3 rounded-full w-fit mt-6 hover:bg-[#d9433f] transition-all duration-300 shadow-md hover:shadow-red-500/30 active:scale-95">
+                  Ավելին
+                </button>
+              </div>
 
-        <div className="bg-white rounded-3xl p-6 md:p-8 shadow-xl transition-all duration-500 group-hover:scale-105 group-hover:shadow-2xl">
-          <img
-            src="https://www.telecomarmenia.am/images/advanced_slider/2/17857419207587.png"
-            alt="Samsung Galaxy Z Fold8"
-            className="max-h-[280px] md:max-h-[380px] w-auto object-contain mx-auto"
-          />
-        </div>
+              <div className="bg-white rounded-3xl p-6 md:p-8 shadow-xl transition-all duration-500 group-hover:scale-105 group-hover:shadow-2xl">
+                <img
+                  src="https://www.telecomarmenia.am/images/advanced_slider/2/17857419207587.png"
+                  alt="Samsung Galaxy Z Fold8"
+                  className="max-h-[280px] md:max-h-[380px] w-auto object-contain mx-auto"
+                />
+              </div>
+            </div>
+          </Carousel.Item>
+
+          {/* SLIDE 2: Honor Magic 8 Lite (Темный фон) */}
+          <Carousel.Item>
+            <div className="w-full min-h-[500px] lg:min-h-[600px] bg-[#001d2d] text-white flex flex-col md:flex-row items-center justify-between px-8 md:px-20 py-12 group">
+              <div className="flex flex-col max-w-xl mb-8 md:mb-0 text-left">
+                <h2 className="text-3xl md:text-5xl font-black text-white leading-tight mb-3 tracking-tight">
+                  Honor Magic 8 Lite
+                </h2>
+                <p className="text-xl md:text-2xl font-bold text-slate-100 mb-4">
+                  Կոտրի՛ր սառույցը, ստացի՛ր ավելին
+                </p>
+                <p className="text-xs md:text-sm text-slate-300 mb-8 leading-relaxed max-w-lg font-light">
+                  Գնի՛ր Honor Magic 8 Lite սմարթֆոնը` ամսական սկսած ընդամենը 2 850 դրամից և ստացի՛ր քո 3-ը 1-ում տուփը:
+                </p>
+                <button className="bg-white text-[#f1534f] font-bold px-9 py-3 rounded-full w-fit hover:bg-[#f1534f] hover:text-white transition-all duration-300 shadow-lg hover:shadow-red-500/20 active:scale-95">
+                  Ավելին
+                </button>
+              </div>
+
+              <div className="relative flex items-center justify-center">
+                <img
+                  src="https://www.telecomarmenia.am/images/advanced_slider/2/17867093088692.jpeg"
+                  alt="Honor Magic 8 Lite"
+                  className="max-h-[320px] md:max-h-[440px] w-auto object-contain transition-transform duration-500 group-hover:scale-105 filter drop-shadow-2xl"
+                />
+              </div>
+            </div>
+          </Carousel.Item>
+
+          {/* SLIDE 3: TCL QLED TV (Светло-кремовый фон) */}
+          <Carousel.Item>
+            <div className="w-full min-h-[500px] lg:min-h-[600px] bg-[#f4f0ea] text-[#00293c] flex flex-col md:flex-row items-center justify-between px-8 md:px-20 py-12 group">
+              <div className="flex flex-col max-w-lg mb-8 md:mb-0 text-left">
+                <h2 className="text-3xl md:text-5xl font-black text-[#00293c] leading-tight mb-4">
+                  Զգա արագությունը` <br /> մեծ էկրանով
+                </h2>
+                <p className="text-lg md:text-xl font-semibold text-slate-600 mb-8">
+                  TCL QLED 55" սմարթ TV
+                </p>
+                <button className="bg-[#f1534f] text-white font-bold px-9 py-3 rounded-full w-fit hover:bg-[#d9433f] transition-all duration-300 shadow-md hover:shadow-red-500/30 active:scale-95">
+                  Ավելին
+                </button>
+              </div>
+
+              <div className="relative flex items-center justify-center">
+                <img
+                  src="https://www.telecomarmenia.am/images/advanced_slider/2/17760603211125.png"
+                  alt="TCL QLED 55 TV"
+                  className="max-h-[300px] md:max-h-[420px] w-auto object-contain transition-transform duration-500 group-hover:scale-105 filter drop-shadow-xl"
+                />
+              </div>
+            </div>
+          </Carousel.Item>
+
+        </Carousel>
       </div>
-    </Carousel.Item>
-
-    {/* SLIDE 2: Honor Magic 8 Lite (Темный фон) */}
-    <Carousel.Item>
-      <div className="w-full min-h-[500px] lg:min-h-[600px] bg-[#001d2d] text-white flex flex-col md:flex-row items-center justify-between px-8 md:px-20 py-12 group">
-        <div className="flex flex-col max-w-xl mb-8 md:mb-0 text-left">
-          <h2 className="text-3xl md:text-5xl font-black text-white leading-tight mb-3 tracking-tight">
-            Honor Magic 8 Lite
-          </h2>
-          <p className="text-xl md:text-2xl font-bold text-slate-100 mb-4">
-            Կոտրի՛ր սառույցը, ստացի՛ր ավելին
-          </p>
-          <p className="text-xs md:text-sm text-slate-300 mb-8 leading-relaxed max-w-lg font-light">
-            Գնի՛ր Honor Magic 8 Lite սմարթֆոնը` ամսական սկսած ընդամենը 2 850 դրամից և ստացի՛ր քո 3-ը 1-ում տուփը:
-          </p>
-          <button className="bg-white text-[#f1534f] font-bold px-9 py-3 rounded-full w-fit hover:bg-[#f1534f] hover:text-white transition-all duration-300 shadow-lg hover:shadow-red-500/20 active:scale-95">
-            Ավելին
-          </button>
-        </div>
-
-        <div className="relative flex items-center justify-center">
-          <img
-            src="https://www.telecomarmenia.am/images/advanced_slider/2/17867093088692.jpeg"
-            alt="Honor Magic 8 Lite"
-            className="max-h-[320px] md:max-h-[440px] w-auto object-contain transition-transform duration-500 group-hover:scale-105 filter drop-shadow-2xl"
-          />
-        </div>
-      </div>
-    </Carousel.Item>
-
-    {/* SLIDE 3: TCL QLED TV (Светло-кремовый фон) */}
-    <Carousel.Item>
-      <div className="w-full min-h-[500px] lg:min-h-[600px] bg-[#f4f0ea] text-[#00293c] flex flex-col md:flex-row items-center justify-between px-8 md:px-20 py-12 group">
-        <div className="flex flex-col max-w-lg mb-8 md:mb-0 text-left">
-          <h2 className="text-3xl md:text-5xl font-black text-[#00293c] leading-tight mb-4">
-            Զգա արագությունը` <br /> մեծ էկրանով
-          </h2>
-          <p className="text-lg md:text-xl font-semibold text-slate-600 mb-8">
-            TCL QLED 55" սմարթ TV
-          </p>
-          <button className="bg-[#f1534f] text-white font-bold px-9 py-3 rounded-full w-fit hover:bg-[#d9433f] transition-all duration-300 shadow-md hover:shadow-red-500/30 active:scale-95">
-            Ավելին
-          </button>
-        </div>
-
-        <div className="relative flex items-center justify-center">
-          <img
-            src="https://www.telecomarmenia.am/images/advanced_slider/2/17760603211125.png"
-            alt="TCL QLED 55 TV"
-            className="max-h-[300px] md:max-h-[420px] w-auto object-contain transition-transform duration-500 group-hover:scale-105 filter drop-shadow-xl"
-          />
-        </div>
-      </div>
-    </Carousel.Item>
-
-  </Carousel>
-</div>
 
       <Container className="my-5">
         <Row xs={1} md={2} className="g-4">
@@ -470,7 +466,7 @@ function HomePage() {
               <Card.Body className="d-flex flex-column justify-content-between">
                 <Card.Title className="service-card-title">ԲՋՋԱՅԻՆ ԿԱՊ</Card.Title>
                 <div className="d-flex justify-content-between align-items-end mt-4">
-                  <a href="/sakagner/bjjayin-kap" className="service-card-link">Ավելին <FaChevronRight size={12} color="#ff4500" /></a>
+                  <Link to="/sakagner/bjjayin-kap" className="service-card-link">Ավելին <FaChevronRight size={12} color="#ff4500" /></Link>
                   <FaMobileAlt size={50} color="#00d2ff" style={{ opacity: 0.8 }} />
                 </div>
               </Card.Body>
@@ -482,7 +478,7 @@ function HomePage() {
               <Card.Body className="d-flex flex-column justify-content-between">
                 <Card.Title className="service-card-title">ՖԻՔՍՎԱԾ ԿԱՊ</Card.Title>
                 <div className="d-flex justify-content-between align-items-end mt-4">
-                  <a href="/sakagner/fixed-phone" className="service-card-link">Ավելին <FaChevronRight size={12} color="#ff4500" /></a>
+                  <Link to="/sakagner/fixed-phone" className="service-card-link">Ավելին <FaChevronRight size={12} color="#ff4500" /></Link>
                   <FaPhoneAlt size={45} color="#00d2ff" style={{ opacity: 0.8 }} />
                 </div>
               </Card.Body>
@@ -494,7 +490,7 @@ function HomePage() {
               <Card.Body className="d-flex flex-column justify-content-between">
                 <Card.Title className="service-card-title">ՀԱՎԵԼՎԱԾՆԵՐ</Card.Title>
                 <div className="d-flex justify-content-between align-items-end mt-4">
-                  <a href="/teamhavelvacner" className="service-card-link">Ավելին <FaChevronRight size={12} color="#ff4500" /></a>
+                  <Link to="/teamhavelvacner" className="service-card-link">Ավելին <FaChevronRight size={12} color="#ff4500" /></Link>
                   <FaThLarge size={45} color="#00d2ff" style={{ opacity: 0.8 }} />
                 </div>
               </Card.Body>
@@ -506,7 +502,7 @@ function HomePage() {
               <Card.Body className="d-flex flex-column justify-content-between">
                 <Card.Title className="service-card-title">ԻՆՏԵՐՆԵՏ ԵՎ TV</Card.Title>
                 <div className="d-flex justify-content-between align-items-end mt-4">
-                  <a href="/sakagner/tvkomp" className="service-card-link">Ավելին <FaChevronRight size={12} color="#ff4500" /></a>
+                  <Link to="/sakagner/tvkomp" className="service-card-link">Ավելին <FaChevronRight size={12} color="#ff4500" /></Link>
                   <FaTv size={45} color="#00d2ff" style={{ opacity: 0.8 }} />
                 </div>
               </Card.Body>
@@ -563,7 +559,7 @@ function HomePage() {
         </Carousel>
 
         <div className="text-end mt-3">
-          <a href="#all-news" className="news-link-all">Տեսնել ավելին</a>
+          <Link to="/norutyuner" className="news-link-all">Տեսնել ավելին</Link>
         </div>
       </Container>
       <img src="../img/team4.png" className="img-fluid w-100 d-block m-0" alt="team-promo" />
@@ -578,7 +574,7 @@ const NAV_MENUS = {
     href: "#tariffs",
     items: [
       { label: "Բջջային կապ", href: "/sakagner/bjjayin-kap" },
-      {  label: "Ինտերնետ և TV - ԿՈՄՊ", href: "/sakagner/tvkomp" },
+      { label: "Ինտերնետ և TV - ԿՈՄՊ", href: "/sakagner/tvkomp" },
       { label: "Ինտերնետ և TV - ԿՈՄԲ", href: "/sakagner/internet-tv-komb" },
       { label: "Ֆիքսված հեռախոսակապ", href: "/sakagner/fixed-phone" },
     ],
@@ -595,25 +591,25 @@ const NAV_MENUS = {
     ],
   },
   services: {
-  label: "Ծառայություններ",
-  href: "#services",
-  items: [
-    { label: "TeamTV", href: "/teamtv" },
-    { label: "Վճարում և համալրում", href: "/teampay" },
-    { label: "Զվարճանք", href: "/services/entertainment" },
-    { label: "Ցանցեր և անվտանգություն", href: "/anvtangutyun" },
-    { label: "Ֆիքսված հեռախոսակապ", href: "/sakagner/fixed-phone" },
-  ],
-},
+    label: "Ծառայություններ",
+    href: "#services",
+    items: [
+      { label: "TeamTV", href: "/teamtv" },
+      { label: "Վճարում և համալրում", href: "/teampay" },
+      { label: "Զվարճանք", href: "/services/entertainment" },
+      { label: "Ցանցեր և անվտանգություն", href: "/anvtangutyun" },
+      { label: "Ֆիքսված հեռախոսակապ", href: "/sakagner/fixed-phone" },
+    ],
+  },
   roaming: {
-  label: "Ռոումինգ",
-  href: "/roaming",
-  items: [
-    { label: "Ռոումինգ", href: "/roaming" }, 
-    { label: "Միջազգային կապ", href: "/international" },
-    { label: "Օգտակար տեղեկատվություն", href: "/useful-info" },
-    { label: "Ծառայություններ", href: "/services" },
-  ],
+    label: "Ռոումինգ",
+    href: "/roaming",
+    items: [
+      { label: "Ռոումինգ", href: "/roaming" }, 
+      { label: "Միջազգային կապ", href: "/international" },
+      { label: "Օգտակար տեղեկատվություն", href: "/useful-info" },
+      { label: "Ծառայություններ", href: "/services" },
+    ],
   },
   onlineShop: {
     label: "Առցանց խանութ",
@@ -625,27 +621,27 @@ const NAV_MENUS = {
     ],
   },
   offers: {
-  label: "Առաջարկներ",
-  href: "#offers",
-  items: [
-    { label: "Շեյքի՛ր եւ Շահի՛ր", href: "/shake" },
-    { label: "Team Բոնուս", href: "/team-bonus" },
-    { label: "Ակցիաներ", href: "/promotions" },
-    { label: "MobiBattle", href: "/mobibattle" },
-    { label: "GeForce Games", href: "/geforce-games" },
-    { label: "Koreez", href: "/koreez" },
-  ],
- },
-help: {
-  label: "Օգնություն",
-  href: "/help",
-  items: [
-    { label: "Հաճախ տրվող հարցեր", href: "/help" },
-    { label: "Սարքերի կարգավորումներ", href: "/help" },
-    { label: "Բաժանորդային սպասարկում", href: "/help" },
-    { label: "USSD հրահանգներ և օգտակար համարներ", href: "/help" },
-  ],
-},
+    label: "Առաջարկներ",
+    href: "#offers",
+    items: [
+      { label: "Շեյքի՛ր եւ Շահի՛ր", href: "/shake" },
+      { label: "Team Բոնուս", href: "/team-bonus" },
+      { label: "Ակցիաներ", href: "/promotions" },
+      { label: "MobiBattle", href: "/mobibattle" },
+      { label: "GeForce Games", href: "/geforce-games" },
+      { label: "Koreez", href: "/koreez" },
+    ],
+  },
+  help: {
+    label: "Օգնություն",
+    href: "/help",
+    items: [
+      { label: "Հաճախ տրվող հարցեր", href: "/help" },
+      { label: "Սարքերի կարգավորումներ", href: "/help" },
+      { label: "Բաժանորդային սպասարկում", href: "/help" },
+      { label: "USSD հրահանգներ և օգտակար համարներ", href: "/help" },
+    ],
+  },
 };
 
 function NavDropdown({ menuKey, openMenu, setOpenMenu }) {
@@ -669,15 +665,15 @@ function NavDropdown({ menuKey, openMenu, setOpenMenu }) {
         <div className="absolute top-full left-0 pt-2 z-50">
           <div className="w-56 bg-white rounded-md shadow-xl border border-slate-100 overflow-hidden">
             {menu.items.map((item, i) => (
-              <a
-                key={item.href}
-                href={item.href}
+              <Link
+                key={item.href + i}
+                to={item.href}
                 className={`block px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 ${
                   i !== menu.items.length - 1 ? "border-b border-slate-100" : ""
                 }`}
               >
                 {item.label}
-              </a>
+              </Link>
             ))}
           </div>
         </div>
@@ -761,18 +757,8 @@ function Header() {
 
             {openMenu === "cart" && (
               <div className="absolute top-full right-0 pt-2 z-50">
-                <div className="w-56 bg-white rounded-md shadow-xl border border-slate-100 overflow-hidden">
-                  {NAV_MENUS.help.items.map((item, i) => (
-                    <a
-                      key={item.href}
-                      href={item.href}
-                      className={`block px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 ${
-                        i !== NAV_MENUS.help.items.length - 1 ? "border-b border-slate-100" : ""
-                      }`}
-                    >
-                      {item.label}
-                    </a>
-                  ))}
+                <div className="w-56 bg-white p-4 rounded-md shadow-xl border border-slate-100 text-center text-slate-600 text-sm">
+                  Զամբյուղը դատարկ է
                 </div>
               </div>
             )}
@@ -785,6 +771,7 @@ function Header() {
 
 // ================= ОСНОВНОЙ КОМПОНЕНТ ПРИЛОЖЕНИЯ =================
 function App() {
+  useCallListener();
   return (
     <Router>
       <Header />
@@ -860,39 +847,39 @@ function App() {
               <ul className="footer-list">
                 <li><Link to="/merMasin" className="footer-link">Մեր մասին</Link></li>
                 <li><Link to="/kapiTangaran" className="footer-link">Կապի թանգարան</Link></li>
-                <li><a href="/norutyuner" className="footer-link">Նորություններ</a></li>
-                <li><a href="/ashxTelArm" className="footer-link">Աշխատանք Տելեկոմ Արմենիայում</a></li>
-                <li><a href="/ardyunq" className="footer-link">Արդյունքներ և հաշվետվություններ</a></li>
-                <li><a href="/etika" className="footer-link">Գործարար Էթիկա և Կոմպլայենս</a></li>
-                <li><a href="/zargacum" className="footer-link">Կայուն զարգացում</a></li>
-                <li><a href="/bajnetirner" className="footer-link">Բաժնետերերին</a></li>
+                <li><Link to="/norutyuner" className="footer-link">Նորություններ</Link></li>
+                <li><Link to="/ashxtelarm" className="footer-link">Աշխատանք Տելեկոմ Արմենիայում</Link></li>
+                <li><Link to="/ardyunq" className="footer-link">Արդյունքներ և հաշվետվություններ</Link></li>
+                <li><Link to="/etika" className="footer-link">Գործարար Էթիկա և Կոմպլայենս</Link></li>
+                <li><Link to="/zargacum" className="footer-link">Կայուն զարգացում</Link></li>
+                <li><Link to="/bajnetirner" className="footer-link">Բաժնետերերին</Link></li>
               </ul>
             </Col>
 
             <Col xs={12} md={6} lg={3}>
               <h5 className="footer-col-title"><FaInfoCircle size={18} style={{ marginRight: '8px', color: '#b0cddb' }} />Տեղեկատվություն</h5>
               <ul className="footer-list">
-                <li><a href="/yndanurdrutyuner" className="footer-link">Ընդհանուր դրույթներ և պայմաններ</a></li>
-                <li><a href="/anvtangutyun" className="footer-link">Անվտանգություն</a></li>
-                <li><a href="/eshpaymaner" className="footer-link">E-shop պայմաններ</a></li>
-                <li><a href="/araqmanpaym" className="footer-link">Առաքման պայմաններ</a></li>
-                <li><a href="/vacharq" className="footer-link">Վաճառքի և սպասարկման կենտրոններ</a></li>
-                <li><a href="/cacquyt" className="footer-link">Ծածկույթ</a></li>
-                <li><a href="/bjc" className="footer-link">Բջջային ցանցի ծածկույթ</a></li>
-                <li><a href="/toxnelh" className="footer-link">Թողնել հայտ</a></li>
-                <li><a href="/ogtakar" className="footer-link">Օգտակար փաստաթղթեր</a></li>
-                <li><a href="/gorcynkerner" className="footer-link">Գաղտնիության քաղաքականություն </a></li>
-                <li><a href="/marz" className="footer-link">ՀՀ մարզերի կոդեր </a></li>
+                <li><Link to="/yndanurdrutyuner" className="footer-link">Ընդհանուր դրույթներ և պայմաններ</Link></li>
+                <li><Link to="/anvtangutyun" className="footer-link">Անվտանգություն</Link></li>
+                <li><Link to="/eshpaymaner" className="footer-link">E-shop պայմաններ</Link></li>
+                <li><Link to="/araqmanpaym" className="footer-link">Առաքման պայմաններ</Link></li>
+                <li><Link to="/vacharq" className="footer-link">Վաճառքի և սպասարկման կենտրոններ</Link></li>
+                <li><Link to="/cacquyt" className="footer-link">Ծածկույթ</Link></li>
+                <li><Link to="/bjc" className="footer-link">Բջջային ցանցի ծածկույթ</Link></li>
+                <li><Link to="/toxnelh" className="footer-link">Թողնել հայտ</Link></li>
+                <li><Link to="/ogtakar" className="footer-link">Օգտակար փաստաթղթեր</Link></li>
+                <li><Link to="/gorcynkerner" className="footer-link">Գաղտնիության քաղաքականություն</Link></li>
+                <li><Link to="/marz" className="footer-link">ՀՀ մարզերի կոդեր</Link></li>
               </ul>
             </Col>
 
             <Col xs={12} md={6} lg={3}>
               <h5 className="footer-col-title"><FaThLarge size={16} style={{ marginRight: '8px', color: '#b0cddb' }} />Team հավելվածներ</h5>
               <ul className="footer-list">
-                <li><a href="/teamtv" className="footer-link">TeamTV</a></li>
-                <li><a href="/myteam" className="footer-link">My Team</a></li>
-                <li><a href="/teampay" className="footer-link">TeamPay</a></li>
-                <li><a href="/teamEnergy" className="footer-link">Team Energy</a></li>
+                <li><Link to="/teamtv" className="footer-link">TeamTV</Link></li>
+                <li><Link to="/myteam" className="footer-link">My Team</Link></li>
+                <li><Link to="/teampay" className="footer-link">TeamPay</Link></li>
+                <li><Link to="/teamenergy" className="footer-link">Team Energy</Link></li>
               </ul>
             </Col>
           </Row>

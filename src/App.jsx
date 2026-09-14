@@ -892,6 +892,7 @@ function App() {
         </div>
       </footer>
 
+      <IncomingCallModal />
       <ChatWidget />
     </Router>
   );
@@ -900,7 +901,7 @@ function App() {
 const tariffCardBadgeStyle = { fontSize: '15px', fontWeight: '600', color: '#546e7a', display: 'block', marginBottom: '2px', letterSpacing: '1px' };
 const tariffCardPriceStyle = { fontSize: '32px', fontWeight: 'bold', color: '#00293c', margin: '0' };
 const tariffSpecListStyle = { display: 'flex', flexDirection: 'column', gap: '14px', margin: '20px 0', color: '#455a64', fontSize: '15px', paddingLeft: '10px' };
-const specItemStyle = { display: 'flex', alignItems: 'center', gap: '10px' };
+const specItemStyle = { display: 'flex', items: 'center', gap: '10px' };
 const specIconStyle = { color: '#78909c' };
 const badge4GStyle = { border: '1px solid #00293c', borderRadius: '4px', fontSize: '10px', fontWeight: 'bold', padding: '1px 4px', color: '#00293c', lineHeight: '1' };
 const socialDotStyle = { width: '18px', height: '18px', borderRadius: '50%', display: 'inline-block' };

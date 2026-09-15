@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from 'react';
-import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt';
 import { useChatStore } from './useChatStore';
 import { auth } from './firebase';
 import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt';

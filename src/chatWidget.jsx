@@ -1,158 +1,323 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Phone, Video, X, Send, MessageSquare, Minimize2, User } from 'lucide-react';
-import useChatStore from './useChatStore_3';
-import { initiateCall } from './callUtils';
-import CallContainer from './CallContainer_5';
+import React, { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import { db, auth } from "./firebase";
+import { ref, onValue, push } from "firebase/database";
+import { onAuthStateChanged } from "firebase/auth";
+import { MessageCircle, X, ArrowLeft, Send, Users, Video, Phone } from "lucide-react";
+import { useChatStore } from "./useChatStore";
+import { initiateCall } from "./callUtils";
+import CallContainer from "./CallContainer";
+
+function getChatId(uid1, uid2) {
+  return [uid1, uid2].sort().join("_");
+}
+
+const DEFAULT_AVATAR =
+  "https://img.magnific.com/premium-vector/gray-picture-person-with-gray-background_1197690-22.jpg?semt=ais_hybrid&w=740&q=80";
 
 export default function ChatWidget() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [users, setUsers] = useState([]);
+  const [messages, setMessages] = useState([]);
+  const [text, setText] = useState("");
+  const [unreadChats, setUnreadChats] = useState({});
+  const bottomRef = useRef(null);
+  const navigate = useNavigate();
+
+  // Всё, что реально есть в useChatStore.js — ничего лишнего не тянем
   const {
     isOpen,
-    toggleWidget,
-    activeChat,
     view,
-    messages,
-    sendMessage,
-    unreadCount,
-    currentUser
+    activeChat,
+    setIsOpen,
+    setView,
+    openPrivateChat,
+    openGroupChat,
   } = useChatStore();
 
-  const [inputText, setInputText] = useState('');
-  const messagesEndRef = useRef(null);
+  const myUid = auth.currentUser?.uid;
+  const myName =
+    auth.currentUser?.displayName || auth.currentUser?.email?.split("@")[0] || "User";
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
+  const activeChatId = activeChat
+    ? activeChat.isGroup
+      ? "public_group"
+      : getChatId(myUid, activeChat.id)
+    : null;
 
   useEffect(() => {
-    if (view === 'chat') {
-      scrollToBottom();
-    }
-  }, [messages, view]);
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setIsLoggedIn(!!user);
+    });
+    return () => unsubscribe();
+  }, []);
 
-  const handleSend = (e) => {
-    e.preventDefault();
-    if (!inputText.trim()) return;
-    sendMessage(inputText);
-    setInputText('');
+  // Отслеживание непрочитанных сообщений во всех чатах
+  useEffect(() => {
+    if (!myUid) return;
+
+    const chatsRef = ref(db, "chats");
+    const unsubscribe = onValue(chatsRef, (snapshot) => {
+      const data = snapshot.val() || {};
+      const newUnreads = {};
+
+      Object.entries(data).forEach(([chatId, chatData]) => {
+        if (!chatData.messages) return;
+        const msgList = Object.values(chatData.messages);
+        if (msgList.length === 0) return;
+
+        const lastMsg = msgList.reduce(
+          (acc, curr) => (curr.timestamp > acc.timestamp ? curr : acc),
+          msgList[0]
+        );
+
+        // Если последнее сообщение не мое и чат не активен в данный момент
+        if (lastMsg.from !== myUid) {
+          const isCurrentlyReading = isOpen && view === "chat" && activeChatId === chatId;
+          if (!isCurrentlyReading) {
+            newUnreads[chatId] = true;
+          }
+        }
+      });
+
+      setUnreadChats(newUnreads);
+    });
+
+    return () => unsubscribe();
+  }, [myUid, isOpen, view, activeChatId]);
+
+  useEffect(() => {
+    if (!isOpen || view !== "list") return;
+
+    const usersRef = ref(db, "users");
+    const unsubscribe = onValue(usersRef, (snapshot) => {
+      const data = snapshot.val() || {};
+      const list = Object.entries(data)
+        .map(([uid, info]) => ({ uid, ...info }))
+        .filter((u) => u.uid !== myUid);
+      setUsers(list);
+    });
+
+    return () => unsubscribe();
+  }, [isOpen, view, myUid]);
+
+  useEffect(() => {
+    if (!activeChat || !myUid) return;
+
+    const chatId = activeChat.isGroup ? "public_group" : getChatId(myUid, activeChat.id);
+
+    const messagesRef = ref(db, `chats/${chatId}/messages`);
+    const unsubscribe = onValue(messagesRef, (snapshot) => {
+      const data = snapshot.val() || {};
+      const list = Object.entries(data)
+        .map(([id, msg]) => ({ id, ...msg }))
+        .sort((a, b) => a.timestamp - b.timestamp);
+      setMessages(list);
+    });
+
+    return () => unsubscribe();
+  }, [activeChat, myUid]);
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
+  const handleWidgetClick = () => {
+    if (isLoggedIn) {
+      setIsOpen(true);
+    } else {
+      navigate("/reg");
+    }
   };
 
-  if (!isOpen) {
-    return (
-      <button
-        onClick={toggleWidget}
-        className="fixed bottom-6 right-6 z-50 p-4 bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-2xl transition-all duration-300 flex items-center justify-center group"
-        aria-label="Open Chat"
-      >
-        <MessageSquare size={26} className="group-hover:scale-110 transition-transform" />
-        {unreadCount > 0 && (
-          <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center border-2 border-white animate-pulse">
-            {unreadCount}
-          </span>
-        )}
-      </button>
-    );
-  }
+  const handleOpenGroupChat = () => {
+    setUnreadChats((prev) => ({ ...prev, public_group: false }));
+    openGroupChat();
+  };
+
+  const handleOpenPrivateChat = (user) => {
+    const chatId = getChatId(myUid, user.uid);
+    setUnreadChats((prev) => ({ ...prev, [chatId]: false }));
+    openPrivateChat(user);
+  };
+
+  const handleSend = async () => {
+    if (!text.trim() || !activeChat || !myUid) return;
+
+    const chatId = activeChat.isGroup ? "public_group" : getChatId(myUid, activeChat.id);
+
+    await push(ref(db, `chats/${chatId}/messages`), {
+      from: myUid,
+      senderName: myName,
+      text: text.trim(),
+      timestamp: Date.now(),
+    });
+    setText("");
+  };
+
+  // initiateCall (callUtils.js) ждёт targetUser с полем .id
+  const targetUser = activeChat ? { id: activeChat.id } : null;
+
+  const currentRoomId = activeChat
+    ? activeChat.isGroup
+      ? "public_group"
+      : getChatId(myUid, activeChat.id)
+    : "default";
+
+  const hasAnyUnread = Object.values(unreadChats).some(Boolean);
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 w-[470px] h-[675px] max-w-[95vw] max-h-[90vh] bg-slate-900 text-white rounded-2xl shadow-2xl border border-white/10 flex flex-col overflow-hidden backdrop-blur-lg">
-      {/* Header */}
-      <div className="p-4 bg-slate-800/80 border-b border-white/10 flex items-center justify-between shrink-0">
-        <div className="flex items-center space-x-3">
-          <div className="relative">
-            <div className="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 font-semibold border border-blue-500/30">
-              {activeChat?.name ? activeChat.name[0].toUpperCase() : <User size={20} />}
-            </div>
-            <span className="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 rounded-full border-2 border-slate-900" />
-          </div>
-          <div>
-            <h3 className="font-medium text-sm text-white/90">
-              {activeChat?.name || "Աջակցություն"}
-            </h3>
-            <p className="text-xs text-emerald-400">Առցանց</p>
-          </div>
-        </div>
+    <div className="fixed bottom-6 right-6 z-[2000]">
+      {!isOpen && (
+        <button
+          onClick={handleWidgetClick}
+          className="relative w-14 h-14 rounded-full bg-[#e8615a] hover:bg-[#dd534c] text-white flex items-center justify-center shadow-lg transition-colors"
+        >
+          <MessageCircle size={26} />
+          {hasAnyUnread && (
+            <span className="absolute top-1 right-1 w-3.5 h-3.5 bg-blue-500 border-2 border-white rounded-full"></span>
+          )}
+        </button>
+      )}
 
-        {/* Action Buttons */}
-        <div className="flex items-center space-x-2">
+      {isOpen && (
+        <div className="w-[360px] h-[520px] bg-white rounded-2xl shadow-2xl border border-slate-200 flex flex-col overflow-hidden">
+          {/* Header */}
+          <div className="bg-[#00293c] text-white px-4 py-3 flex items-center gap-2">
+            {view !== "list" && (
+              <button onClick={() => setView("list")} className="text-white/80 hover:text-white mr-1">
+                <ArrowLeft size={18} />
+              </button>
+            )}
+
+            <div className="flex-1 min-w-0">
+              {view === "list" ? (
+                <p className="font-medium">Հաղորդագրություններ</p>
+              ) : (
+                <p className="font-medium truncate">{activeChat?.name}</p>
+              )}
+            </div>
+
+            {view === "chat" && !activeChat?.isGroup && (
+              <div className="flex items-center gap-2 mr-2">
+                <button
+                  onClick={() => initiateCall(targetUser, "audio")}
+                  className="p-1.5 hover:bg-white/10 rounded-full text-white/90 transition-colors"
+                  title="Ձայնային զանգ"
+                >
+                  <Phone size={16} />
+                </button>
+                <button
+                  onClick={() => initiateCall(targetUser, "video")}
+                  className="p-1.5 hover:bg-white/10 rounded-full text-white/90 transition-colors"
+                  title="Տեսազանգ"
+                >
+                  <Video size={16} />
+                </button>
+              </div>
+            )}
+
+            <button onClick={() => setIsOpen(false)} className="text-white/80 hover:text-white">
+              <X size={18} />
+            </button>
+          </div>
+
+          {/* View: List */}
+          {view === "list" && (
+            <div className="flex-1 overflow-y-auto">
+              <button
+                onClick={handleOpenGroupChat}
+                className="w-full flex items-center gap-3 px-4 py-3 hover:bg-slate-50 text-left border-b border-slate-100 bg-slate-50/50 relative"
+              >
+                <div className="w-10 h-10 rounded-full bg-[#e8615a] text-white flex items-center justify-center shrink-0">
+                  <Users size={20} />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="text-sm font-semibold text-slate-800">Ընդհանուր Խումբ</p>
+                  <p className="text-xs text-slate-400">Գրեք բոլորին</p>
+                </div>
+                {unreadChats["public_group"] && (
+                  <span className="w-2.5 h-2.5 bg-blue-500 rounded-full shrink-0 ml-auto" />
+                )}
+              </button>
+
+              {users.map((user) => {
+                const chatId = getChatId(myUid, user.uid);
+                const isUnread = unreadChats[chatId];
+                return (
+                  <button
+                    key={user.uid}
+                    onClick={() => handleOpenPrivateChat(user)}
+                    className="w-full flex items-center gap-3 px-4 py-3 hover:bg-slate-50 text-left border-b border-slate-50 relative"
+                  >
+                    <img
+                      src={user.photoURL || DEFAULT_AVATAR}
+                      alt={user.name}
+                      className="w-10 h-10 rounded-full object-cover shrink-0"
+                    />
+                    <div className="min-w-0 flex-1">
+                      <p className="text-sm font-medium text-slate-800 truncate">
+                        {user.name || "Անանուն"}
+                      </p>
+                      <p className="text-xs text-slate-400 truncate">{user.email}</p>
+                    </div>
+                    {isUnread && (
+                      <span className="w-2.5 h-2.5 bg-blue-500 rounded-full shrink-0 ml-auto" />
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          )}
+
+          {/* View: Chat */}
           {view === "chat" && (
             <>
-              <button
-                onClick={() => initiateCall(activeChat, "audio")}
-                className="p-1.5 hover:bg-white/10 rounded-full text-white/90 transition-colors"
-                title="Ձայնային զանգ"
-              >
-                <Phone size={18} />
-              </button>
-              <button
-                onClick={() => initiateCall(activeChat, "video")}
-                className="p-1.5 hover:bg-white/10 rounded-full text-white/90 transition-colors"
-                title="Տեսազանգ"
-              >
-                <Video size={18} />
-              </button>
+              <div className="flex-1 overflow-y-auto p-3 flex flex-col gap-2">
+                {messages.map((msg) => {
+                  const isMine = msg.from === myUid;
+                  return (
+                    <div
+                      key={msg.id}
+                      className={`max-w-[80%] px-3 py-2 rounded-2xl text-sm ${
+                        isMine
+                          ? "self-end bg-[#e8615a] text-white rounded-br-sm"
+                          : "self-start bg-slate-100 text-slate-800 rounded-bl-sm"
+                      }`}
+                    >
+                      {activeChat.isGroup && !isMine && (
+                        <p className="text-[10px] font-bold opacity-75 mb-0.5">{msg.senderName}</p>
+                      )}
+                      {msg.text}
+                    </div>
+                  );
+                })}
+                <div ref={bottomRef} />
+              </div>
+
+              <div className="flex items-center gap-2 p-3 border-t border-slate-100">
+                <input
+                  type="text"
+                  value={text}
+                  onChange={(e) => setText(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && handleSend()}
+                  placeholder="Գրեք հաղորդագրություն..."
+                  className="flex-1 border border-slate-200 rounded-full px-3 py-1.5 outline-none text-sm"
+                />
+                <button
+                  onClick={handleSend}
+                  className="bg-[#e8615a] hover:bg-[#dd534c] text-white rounded-full w-8 h-8 flex items-center justify-center shrink-0"
+                >
+                  <Send size={14} />
+                </button>
+              </div>
             </>
           )}
 
-          <button
-            onClick={toggleWidget}
-            className="p-2 hover:bg-white/10 rounded-full text-white/70 hover:text-white transition-colors"
-          >
-            <Minimize2 size={18} />
-          </button>
-        </div>
-      </div>
-
-      {/* Main View Area */}
-      {view === "call" ? (
-        <div className="flex-1 min-h-0 w-full h-full relative overflow-hidden">
-          <CallContainer />
-        </div>
-      ) : (
-        <div className="flex-1 min-h-0 flex flex-col bg-slate-950/50">
-          {/* Message History */}
-          <div className="flex-1 min-h-0 overflow-y-auto p-4 space-y-3">
-            {messages.map((msg, index) => {
-              const isMe = msg.senderId === currentUser?.id;
-              return (
-                <div
-                  key={msg.id || index}
-                  className={`flex flex-col ${isMe ? 'items-end' : 'items-start'}`}
-                >
-                  <div
-                    className={`max-w-[80%] p-3 rounded-2xl text-sm leading-relaxed ${
-                      isMe
-                        ? 'bg-blue-600 text-white rounded-br-none'
-                        : 'bg-slate-800 text-slate-100 rounded-bl-none border border-white/5'
-                    }`}
-                  >
-                    {msg.text}
-                  </div>
-                  <span className="text-[10px] text-slate-400 mt-1 px-1">
-                    {msg.timestamp ? new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : ''}
-                  </span>
-                </div>
-              );
-            })}
-            <div ref={messagesEndRef} />
-          </div>
-
-          {/* Input Field */}
-          <form onSubmit={handleSend} className="p-3 bg-slate-800/50 border-t border-white/10 flex items-center space-x-2 shrink-0">
-            <input
-              type="text"
-              value={inputText}
-              onChange={(e) => setInputText(e.target.value)}
-              placeholder="Գրեք հաղորդագրություն..."
-              className="flex-1 bg-slate-900 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-400 focus:outline-none focus:border-blue-500 transition-colors"
-            />
-            <button
-              type="submit"
-              disabled={!inputText.trim()}
-              className="p-2.5 bg-blue-600 hover:bg-blue-500 disabled:opacity-50 disabled:hover:bg-blue-600 text-white rounded-xl transition-colors flex items-center justify-center"
-            >
-              <Send size={18} />
-            </button>
-          </form>
+          {/* View: Call */}
+          {view === "call" && (
+            <CallContainer roomId={currentRoomId} userId={myUid} userName={myName} />
+          )}
         </div>
       )}
     </div>

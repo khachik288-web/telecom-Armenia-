@@ -97,13 +97,15 @@ export default function Reg() {
 
   return (
     <div className="flex min-h-screen">
-      <div className="w-full max-w-md bg-slate-50 flex flex-col px-16 py-10">
+      {/* Форма — на мобиле занимает весь экран и центрируется по высоте,
+          на десктопе (lg+) — фиксированная колонка слева, как было */}
+      <div className="w-full lg:max-w-md bg-slate-50 flex flex-col justify-center px-5 py-8 sm:px-10 sm:py-10 lg:px-16 lg:justify-start">
         <img
           src="https://www.telecomarmenia.am/images/team_apps/1/16510708696227.png"
-          className="w-[80px] h-[80px] mb-[25px]"
+          className="w-16 h-16 lg:w-[80px] lg:h-[80px] mb-6 lg:mb-[25px] mx-auto lg:mx-0"
         />
 
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-8">
+        <div className="w-full max-w-sm mx-auto lg:mx-0 lg:max-w-none bg-white rounded-2xl shadow-sm border border-slate-100 p-6 sm:p-8">
           <form className="flex flex-col gap-5" onSubmit={(e) => e.preventDefault()}>
             {/* email */}
             <div>
@@ -114,7 +116,7 @@ export default function Reg() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full border-b border-slate-200 pb-1 outline-none text-sm placeholder:text-slate-300 bg-white text-slate-800"
+                className="w-full border-b border-slate-200 pb-2 outline-none text-base sm:text-sm placeholder:text-slate-300 bg-white text-slate-800"
               />
             </div>
 
@@ -123,13 +125,13 @@ export default function Reg() {
               <label className="block text-xs text-slate-500 mb-1">
                 Հեռախոսահամար (ոչ պարտադիր)
               </label>
-              <div className="flex items-center border-b border-slate-200 pb-1 gap-2">
+              <div className="flex items-center border-b border-slate-200 pb-2 gap-2">
                 <span className="text-slate-600 text-sm">+374</span>
                 <input
                   type="tel"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="flex-1 outline-none text-sm placeholder:text-slate-300 bg-white text-slate-800"
+                  className="flex-1 outline-none text-base sm:text-sm placeholder:text-slate-300 bg-white text-slate-800"
                 />
               </div>
             </div>
@@ -139,17 +141,17 @@ export default function Reg() {
               <label className="block text-xs text-slate-500 mb-1">
                 Գաղտնաբառ
               </label>
-              <div className="flex items-center border-b border-slate-200 pb-1 gap-2">
+              <div className="flex items-center border-b border-slate-200 pb-2 gap-2">
                 <input
                   type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="flex-1 outline-none text-sm placeholder:text-slate-300 bg-white text-slate-800"
+                  className="flex-1 outline-none text-base sm:text-sm placeholder:text-slate-300 bg-white text-slate-800"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword((v) => !v)}
-                  className="text-slate-400"
+                  className="text-slate-400 p-1 -m-1"
                 >
                   {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
@@ -162,7 +164,7 @@ export default function Reg() {
             <button
               type="button"
               onClick={handleLogin}
-              className="w-full bg-[#e8615a] hover:bg-[#dd534c] text-white font-medium rounded-full py-3 mt-2"
+              className="w-full bg-[#e8615a] hover:bg-[#dd534c] active:bg-[#c94842] text-white font-medium rounded-full py-3.5 sm:py-3 mt-2"
             >
               Մուտք
             </button>
@@ -171,7 +173,7 @@ export default function Reg() {
             <button
               type="button"
               onClick={handleGoogleLogin}
-              className="w-full border border-[#e8615a] bg-white hover:bg-slate-50 text-[#e8615a] font-medium rounded-full py-3 mt-2 flex items-center justify-center gap-2"
+              className="w-full border border-[#e8615a] bg-white hover:bg-slate-50 active:bg-slate-100 text-[#e8615a] font-medium rounded-full py-3.5 sm:py-3 mt-2 flex items-center justify-center gap-2"
             >
               <FcGoogle size={20} />
               <span>Մուտք Google-ով</span>
@@ -181,7 +183,7 @@ export default function Reg() {
             <button
               type="button"
               onClick={handleRegister}
-              className="w-full border border-[#e8615a] text-[#e8615a] font-medium rounded-full py-3 bg-white"
+              className="w-full border border-[#e8615a] text-[#e8615a] font-medium rounded-full py-3.5 sm:py-3 bg-white active:bg-slate-50"
             >
               Գրանցում
             </button>
@@ -189,7 +191,9 @@ export default function Reg() {
         </div>
       </div>
 
-      <div className="relative flex-1 bg-[url('https://burst.shopifycdn.com/photos/man-hiking-in-mountains.jpg?exif=0&iptc=0')] bg-cover bg-center">
+      {/* Декоративная картинка — только на десктопе, на мобиле только забирает
+          место у формы, поэтому скрыта до lg */}
+      <div className="hidden lg:block relative flex-1 bg-[url('https://burst.shopifycdn.com/photos/man-hiking-in-mountains.jpg?exif=0&iptc=0')] bg-cover bg-center">
         <div className="absolute inset-0 bg-black/10" />
         <h1 className="absolute top-16 left-16 text-white text-5xl font-bold drop-shadow-lg">
           ԱՆԶՆԱԿԱՆ ԳՐԱՍԵՆՅԱԿ

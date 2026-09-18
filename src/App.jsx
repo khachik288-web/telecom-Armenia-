@@ -56,7 +56,7 @@ import TeamHavelvacner from './teamHavelvacner.jsx';
 import { initZegoService, destroyZegoService } from './zego';
 
 import { 
-  FaRegUserCircle, FaRegCreditCard, FaShoppingCart, FaBars,
+  FaRegUserCircle, FaRegCreditCard, FaShoppingCart, FaBars, FaTimes, FaChevronDown,
   FaMobileAlt, FaPhoneAlt, FaThLarge, FaTv, FaChevronRight,
   FaFacebook, FaInstagram, FaYoutube, FaRegEnvelope, FaBuilding, FaInfoCircle,
   FaSearch
@@ -643,6 +643,44 @@ const NAV_MENUS = {
   },
 };
 
+// Мобильная версия навигации — аккордеон поверх тех же NAV_MENUS,
+// чтобы не дублировать данные между десктопом и мобилкой.
+function MobileNavAccordion({ menuKey, openSubmenu, setOpenSubmenu, onNavigate }) {
+  const menu = NAV_MENUS[menuKey];
+  const isOpen = openSubmenu === menuKey;
+
+  return (
+    <div className="border-b border-slate-100">
+      <button
+        type="button"
+        onClick={() => setOpenSubmenu(isOpen ? null : menuKey)}
+        className="w-full flex items-center justify-between py-3 text-left text-[#00293c] font-medium"
+      >
+        <span>{menu.label}</span>
+        <FaChevronDown
+          size={12}
+          className={`text-slate-400 transition-transform ${isOpen ? "rotate-180" : ""}`}
+        />
+      </button>
+
+      {isOpen && (
+        <div className="pb-2 flex flex-col gap-1">
+          {menu.items.map((item, i) => (
+            <Link
+              key={item.href + i}
+              to={item.href}
+              onClick={onNavigate}
+              className="px-3 py-2 rounded-md text-sm text-slate-600 hover:bg-slate-50"
+            >
+              {item.label}
+            </Link>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function NavDropdown({ menuKey, openMenu, setOpenMenu }) {
   const menu = NAV_MENUS[menuKey];
   const isOpen = openMenu === menuKey;
@@ -684,10 +722,19 @@ function NavDropdown({ menuKey, openMenu, setOpenMenu }) {
 function Header() {
   const location = useLocation();
   const [openMenu, setOpenMenu] = useState(null);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobileSubmenu, setMobileSubmenu] = useState(null);
+
+  const closeMobileMenu = () => {
+    setMobileOpen(false);
+    setMobileSubmenu(null);
+  };
 
   return (
     <header className="app-header-container">
-      <div className="top-blue-panel">
+      {/* Верхняя синяя панель — на мобиле/планшете прячем, места мало,
+          её пункты дублируются в мобильном меню ниже. */}
+      <div className="top-blue-panel hidden lg:block">
         <Container className="d-flex justify-content-between align-items-center px-0" style={{ height: '42px' }}>
 
           <div className="d-flex h-100 align-items-center">
@@ -728,16 +775,17 @@ function Header() {
       </div>
 
       <div className="bottom-white-panel">
-        <Container className="d-flex justify-content-between align-items-center px-0" style={{ height: '85px' }}>
-          <Link to="/" className="ps-3 d-flex align-items-center">
+        <Container className="d-flex justify-content-between align-items-center px-0 h-16 lg:h-[85px]">
+          <Link to="/" className="ps-3 d-flex align-items-center" onClick={closeMobileMenu}>
             <img
               src="https://www.telecomarmenia.am/images/team_apps/1/16510708696227.png"
               alt="telecom armenia"
-              style={{ height: '52px' }}
+              className="h-9 lg:h-[52px]"
             />
           </Link>
 
-          <nav className="d-flex align-items-center gap-4">
+          {/* Десктопная навигация — с lg и выше, 7 пунктов сюда не влезают на планшете/мобиле */}
+          <nav className="hidden lg:flex align-items-center gap-4">
             <NavDropdown menuKey="tariffs" openMenu={openMenu} setOpenMenu={setOpenMenu} />
             <NavDropdown menuKey="internet" openMenu={openMenu} setOpenMenu={setOpenMenu} />
             <NavDropdown menuKey="services" openMenu={openMenu} setOpenMenu={setOpenMenu} />
@@ -747,23 +795,102 @@ function Header() {
             <NavDropdown menuKey="help" openMenu={openMenu} setOpenMenu={setOpenMenu} />
           </nav>
 
-          <div
-            className="relative h-100 d-flex align-items-center"
-            onMouseEnter={() => setOpenMenu("cart")}
-            onMouseLeave={() => setOpenMenu(null)}
-          >
-            <div className="blue-card-box"><FaRegCreditCard size={25} color="#00293c" /></div>
+          <div className="flex items-center gap-1 pe-2 lg:pe-0">
+            {/* Иконка личного кабинета — видна только на мобиле/планшете,
+                на десктопе та же ссылка уже есть в верхней синей панели */}
+            <Link
+              to="/reg"
+              onClick={closeMobileMenu}
+              className="lg:hidden p-2 text-[#00293c]"
+              aria-label="Անձնական գրասենյակ"
+            >
+              <FaRegUserCircle size={20} />
+            </Link>
 
-            {openMenu === "cart" && (
-              <div className="absolute top-full right-0 pt-2 z-50">
-                <div className="w-56 bg-white p-4 rounded-md shadow-xl border border-slate-100 text-center text-slate-600 text-sm">
-                  Զամբյուղը դատարկ է
-                </div>
+            <div
+              className="relative h-100 d-flex align-items-center"
+              onMouseEnter={() => setOpenMenu("cart")}
+              onMouseLeave={() => setOpenMenu(null)}
+            >
+              <div className="blue-card-box !w-[52px] !h-[64px] lg:!w-[75px] lg:!h-[85px]">
+                <FaRegCreditCard size={22} color="#00293c" />
               </div>
-            )}
+
+              {openMenu === "cart" && (
+                <div className="absolute top-full right-0 pt-2 z-50">
+                  <div className="w-56 bg-white p-4 rounded-md shadow-xl border border-slate-100 text-center text-slate-600 text-sm">
+                    Զամբյուղը դատարկ է
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Бургер — только на мобиле/планшете */}
+            <button
+              type="button"
+              onClick={() => setMobileOpen((v) => !v)}
+              className="lg:hidden p-2 text-[#00293c]"
+              aria-label={mobileOpen ? "Փակել մենյուն" : "Բացել մենյուն"}
+            >
+              {mobileOpen ? <FaTimes size={20} /> : <FaBars size={20} />}
+            </button>
           </div>
         </Container>
       </div>
+
+      {/* Мобильное меню — раскрывается под хедером, содержит всё то,
+          что на десктопе разнесено между верхней панелью и nav-дропдаунами */}
+      {mobileOpen && (
+        <div className="lg:hidden bg-white border-t border-slate-100 shadow-xl max-h-[calc(100vh-64px)] overflow-y-auto">
+          <Container className="px-4 py-3">
+            <div className="flex flex-col gap-1 pb-3 mb-3 border-b border-slate-100">
+              <Link
+                to="/"
+                onClick={closeMobileMenu}
+                className={`px-3 py-2 rounded-md text-sm font-medium ${
+                  location.pathname === '/' ? 'text-[#f1534f]' : 'text-[#00293c]'
+                }`}
+              >
+                Անհատներին
+              </Link>
+              <Link
+                to="/business"
+                onClick={closeMobileMenu}
+                className={`px-3 py-2 rounded-md text-sm font-medium ${
+                  location.pathname === '/business' ? 'text-[#f1534f]' : 'text-[#00293c]'
+                }`}
+              >
+                Բիզնես
+              </Link>
+              <Link
+                to="/eshop"
+                onClick={closeMobileMenu}
+                className={`px-3 py-2 rounded-md text-sm font-medium ${
+                  location.pathname === '/eshop' ? 'text-[#f1534f]' : 'text-[#00293c]'
+                }`}
+              >
+                E-shop
+              </Link>
+            </div>
+
+            <MobileNavAccordion menuKey="tariffs" openSubmenu={mobileSubmenu} setOpenSubmenu={setMobileSubmenu} onNavigate={closeMobileMenu} />
+            <MobileNavAccordion menuKey="internet" openSubmenu={mobileSubmenu} setOpenSubmenu={setMobileSubmenu} onNavigate={closeMobileMenu} />
+            <MobileNavAccordion menuKey="services" openSubmenu={mobileSubmenu} setOpenSubmenu={setMobileSubmenu} onNavigate={closeMobileMenu} />
+            <MobileNavAccordion menuKey="roaming" openSubmenu={mobileSubmenu} setOpenSubmenu={setMobileSubmenu} onNavigate={closeMobileMenu} />
+            <MobileNavAccordion menuKey="onlineShop" openSubmenu={mobileSubmenu} setOpenSubmenu={setMobileSubmenu} onNavigate={closeMobileMenu} />
+            <MobileNavAccordion menuKey="offers" openSubmenu={mobileSubmenu} setOpenSubmenu={setMobileSubmenu} onNavigate={closeMobileMenu} />
+            <MobileNavAccordion menuKey="help" openSubmenu={mobileSubmenu} setOpenSubmenu={setMobileSubmenu} onNavigate={closeMobileMenu} />
+
+            <div className="flex items-center gap-3 pt-4 mt-2">
+              <a href="#hy" className="text-xs font-bold" style={{ color: '#f1534f' }}>Հայ</a>
+              <span className="text-slate-300">|</span>
+              <a href="#ru" className="text-xs text-slate-500">Рус</a>
+              <span className="text-slate-300">|</span>
+              <a href="#en" className="text-xs text-slate-500">Eng</a>
+            </div>
+          </Container>
+        </div>
+      )}
     </header>
   );
 }

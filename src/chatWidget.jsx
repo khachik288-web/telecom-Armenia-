@@ -6,7 +6,6 @@ import { onAuthStateChanged } from "firebase/auth";
 import { MessageCircle, X, ArrowLeft, Send, Users, Video, Phone } from "lucide-react";
 import { useChatStore } from "./useChatStore";
 import { initiateCall } from "./callUtils";
-import CallContainer from "./CallContainer";
 
 function getChatId(uid1, uid2) {
   return [uid1, uid2].sort().join("_");
@@ -24,7 +23,7 @@ export default function ChatWidget() {
   const bottomRef = useRef(null);
   const navigate = useNavigate();
 
-  // Всё, что реально есть в useChatStore.js — ничего лишнего не тянем
+  // Стор больше не хранит ничего про звонки — этим занимается Zego (zego.js)
   const {
     isOpen,
     view,
@@ -155,14 +154,8 @@ export default function ChatWidget() {
     setText("");
   };
 
-  // initiateCall (callUtils.js) ждёт targetUser с полем .id
-  const targetUser = activeChat ? { id: activeChat.id } : null;
-
-  const currentRoomId = activeChat
-    ? activeChat.isGroup
-      ? "public_group"
-      : getChatId(myUid, activeChat.id)
-    : "default";
+  // initiateCall (callUtils.js) ждёт targetUser с полями .id и .name
+  const targetUser = activeChat ? { id: activeChat.id, name: activeChat.name } : null;
 
   const hasAnyUnread = Object.values(unreadChats).some(Boolean);
 
@@ -198,6 +191,7 @@ export default function ChatWidget() {
               )}
             </div>
 
+            {/* Кнопки звонка — только для личных чатов (групповой звонок не поддержан) */}
             {view === "chat" && !activeChat?.isGroup && (
               <div className="flex items-center gap-2 mr-2">
                 <button
@@ -314,10 +308,9 @@ export default function ChatWidget() {
             </>
           )}
 
-          {/* View: Call */}
-          {view === "call" && (
-            <CallContainer roomId={currentRoomId} userId={myUid} userName={myName} />
-          )}
+          {/* Отдельного "view: call" больше нет — сам Zego рисует
+              полноэкранный UI звонка поверх страницы, когда invitation
+              принят (см. zego.js / callUtils.js). */}
         </div>
       )}
     </div>

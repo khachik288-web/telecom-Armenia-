@@ -53,8 +53,7 @@ import MobiBattle from './MobiBattle.jsx';
 import GeforceGames from './GeforceGames.jsx';
 import Koreez from './Koreez.jsx';
 import TeamHavelvacner from './teamHavelvacner.jsx';
-import IncomingCallModal from './IncomingCallModal';
-import { useCallListener } from './useCallListener';
+import { initZegoService, destroyZegoService } from './zego';
 
 import { 
   FaRegUserCircle, FaRegCreditCard, FaShoppingCart, FaBars,
@@ -771,7 +770,22 @@ function Header() {
 
 // ================= ОСНОВНОЙ КОМПОНЕНТ ПРИЛОЖЕНИЯ =================
 function App() {
-  useCallListener();
+  // Инициализируем Zego-сервис (звонки) один раз, как только юзер
+  // залогинен — именно этот инстанс потом сам ловит входящие звонки
+  // и рисует их UI, где бы юзер ни находился на сайте.
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const displayName =
+          user.displayName || user.email?.split('@')[0] || 'User';
+        initZegoService(user.uid, displayName);
+      } else {
+        destroyZegoService();
+      }
+    });
+    return () => unsubscribe();
+  }, []);
+
   return (
     <Router>
       <Header />
@@ -892,7 +906,6 @@ function App() {
         </div>
       </footer>
 
-      <IncomingCallModal />
       <ChatWidget />
     </Router>
   );

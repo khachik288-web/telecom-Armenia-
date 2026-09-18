@@ -1,31 +1,44 @@
-import { ref, set } from 'firebase/database';
-import { db, auth } from './firebase';
-import { useChatStore } from './useChatStore';
+import { getZegoInstance, ZegoUIKitPrebuilt } from "./zego";
 
+/**
+ * Запускает звонок через встроенный механизм Zego Call Invitation.
+ * Никакого roomId и записи в Firebase — Zego сам создаёт сессию звонка,
+ * показывает получателю всплывающее окно "входящий звонок" и, если тот
+ * принимает, сам открывает полноэкранный UI звонка на обеих сторонах.
+ *
+ * @param {{ id: string, name?: string }} targetUser — кому звоним
+ * @param {"audio" | "video"} callType
+ */
 export const initiateCall = async (targetUser, callType) => {
-  const currentUser = auth.currentUser;
-  if (!currentUser || !targetUser) return;
+  if (!targetUser?.id) return;
 
-  const roomId = `room_${currentUser.uid}_${targetUser.id}_${Date.now()}`;
-  const { startCall } = useChatStore.getState();
+  const zp = getZegoInstance();
+  if (!zp) {
+    console.error(
+      "Zego-сервис не инициализирован. Проверьте, что initZegoService() " +
+        "вызывается в App.jsx после логина."
+    );
+    alert("Զանգերի ֆունկցիան դեռ պատրաստ չէ, թարմացրեք էջը և փորձեք կրկին:");
+    return;
+  }
 
-  // 1. Отправляем сигнал входящего вызова получателю
-  await set(ref(db, `calls/${targetUser.id}`), {
-    callerId: currentUser.uid,
-    callerName: currentUser.displayName || 'Пользователь',
-    roomId: roomId,
-    callType: callType,
-    status: 'ringing',
-  });
+  const zegoCallType =
+    callType === "video"
+      ? ZegoUIKitPrebuilt.InvitationTypeVideoCall
+      : ZegoUIKitPrebuilt.InvitationTypeVoiceCall;
 
-  // 2. Создаем запись своего статуса
-  await set(ref(db, `calls/${currentUser.uid}`), {
-    callerId: currentUser.uid,
-    roomId: roomId,
-    callType: callType,
-    status: 'calling',
-  });
+  try {
+    const res = await zp.sendCallInvitation({
+      callees: [{ userID: targetUser.id, userName: targetUser.name || "User" }],
+      callType: zegoCallType,
+      timeout: 60,
+    });
 
-  // 3. Переключаем свой интерфейс в режим звонка
-  startCall(callType, roomId);
+    if (res?.errorInvitees?.length) {
+      alert("Օգտատերը հասանելի չէ (անցանց է կամ գոյություն չունի):");
+    }
+  } catch (err) {
+    console.error("Ошибка при отправке звонка:", err);
+    alert("Չհաջողվեց սկսել զանգը, փորձեք կրկին:");
+  }
 };
